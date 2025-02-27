@@ -93,7 +93,3 @@ type ItemAddArgs struct {
 	// See the [Duration] for more details.
 	Duration *Duration `json:"duration,omitempty"` // optional
 }
-
-func NewItemAddCommand(args *ItemAddArgs) *Command {
-	return NewCommand("item_add", args)
-}

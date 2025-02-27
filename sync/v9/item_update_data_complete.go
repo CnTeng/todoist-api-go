@@ -1,6 +1,6 @@
 package sync
 
-type ItemUpdateDataCompleteArgs struct {
+type ItemUpdateDateCompleteArgs struct {
 	// The ID of the item to update (a number or a temp id).
 	ID string `json:"id"` // required
 
@@ -17,8 +17,4 @@ type ItemUpdateDataCompleteArgs struct {
 	// By default, this property is not set (0), and subtasks will retain their
 	// existing status when the parent task recurs.
 	RestSubTasks *bool `json:"rest_subtasks,omitempty"` // optional
-}
-
-func NewItemUpdateDataCompleteCommand(args ItemUpdateDataCompleteArgs) *Command {
-	return NewCommand("item_update_data_complete", args)
 }

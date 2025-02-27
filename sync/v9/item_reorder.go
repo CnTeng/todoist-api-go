@@ -10,7 +10,3 @@ type ItemReorderArgs struct {
 		ChildOrder int `json:"child_order"`
 	}
 }
-
-func NewItemReorderCommand(args ItemReorderArgs) *Command {
-	return NewCommand("item_reorder", args)
-}

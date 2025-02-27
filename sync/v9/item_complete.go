@@ -10,7 +10,3 @@ type ItemCompleteArgs struct {
 	// If not set, the server will set the value to the current timestamp.
 	DateCompleted *string `json:"date_completed,omitempty"` // optional
 }
-
-func NewItemCompleteCommand(args ItemCompleteArgs) *Command {
-	return NewCommand("item_complete", args)
-}

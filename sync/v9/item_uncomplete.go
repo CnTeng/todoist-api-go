@@ -11,7 +11,3 @@ type ItemUncompleteArgs struct {
 	// Task ID to uncomplete
 	ID string `json:"id"` // required
 }
-
-func NewItemUncompleteCommand(args ItemUncompleteArgs) *Command {
-	return NewCommand("item_uncomplete", args)
-}

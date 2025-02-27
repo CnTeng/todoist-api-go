@@ -9,7 +9,3 @@ type ItemCloseArgs struct {
 	// The ID of the item to close (a number or a temp id).
 	ID string `json:"id"` // required
 }
-
-func NewItemCloseCommand(args ItemCloseArgs) *Command {
-	return NewCommand("item_close", args)
-}

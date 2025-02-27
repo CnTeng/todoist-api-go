@@ -20,7 +20,3 @@ type ItemMoveArgs struct {
 	// By default the task is added to the user’s Inbox project.
 	ProjectID *string `json:"project_id,omitempty"` // optional
 }
-
-func NewItemMoveCommand(args ItemMoveArgs) *Command {
-	return NewCommand("item_move", args)
-}
