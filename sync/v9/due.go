@@ -10,7 +10,39 @@ import (
 
 const floatingDateTime = "2006-01-02T15:04:05.000000"
 
-// Due represents a task's due date.
+// Due dates for tasks and reminders is one of the core concepts of Todoist.
+// It's very powerful and quite complex, because it has to embrace different
+// use-cases of Todoist users.
+// Todoist supports three types of due dates:
+//
+//  1. Full-day dates (like "1 January 2018" or "tomorrow")
+//
+//     - Date is [time.DateOnly].
+//
+//     - Timezone is null.
+//
+//  2. Floating due dates with time (like "1 January 2018 at 12:00" or "tomorrow
+//     at 10am")
+//
+//     - Date is "2006-01-02T15:04:05.000000".
+//
+//     - Timezone is null.
+//
+//  3. Due dates with time and fixed timezone (like "1 January 2018 at 12:00
+//     America/Chicago" or "tomorrow at 10am Asia/Jakarta")
+//
+//     - Date is [time.RFC3339].
+//
+//     - Timezone is not null.
+//
+// Unless specified explicitly, dates with time are created as floating.
+//
+// In addition, any of these due dates can be set to recurring or not, depending
+// on the date string, provided by the client.
+//
+// See [Due dates] for more details.
+//
+// [Due dates]: https://developer.todoist.com/sync/v9#due-dates
 type Due struct {
 	// Due date.
 	Date time.Time `json:"date"`
@@ -20,22 +52,22 @@ type Due struct {
 	// Used to recalculate properly the next iteration for a recurring due date.
 	Timezone *time.Location `json:"timezone"`
 
-	// Human-readable representation of due date.
-	// String always represents the due object in user's timezone.
-	// Look at our reference to see [which formats are supported].
-	//
-	// [which formats are supported]: https://todoist.com/help/articles/introduction-to-dates-and-time-q7VobO
+	// Human-readable representation of due date. String always represents the due
+	// object in user's timezone. See
+	// https://todoist.com/help/articles/introduction-to-dates-and-time-q7VobO for
+	// more details.
 	String string `json:"string"`
 
 	// Lang which has to be used to parse the content of the string attribute.
-	// Used by clients and on the server side to properly process due dates when date object is not set,
-	// and when dealing with recurring tasks.
+	// Used by clients and on the server side to properly process due dates when
+	// date object is not set, and when dealing with recurring tasks.
 	//
 	// Valid languages are:
 	//   en, da, pl, zh, ko, de, pt, ja, it, fr, sv, ru, es, nl, fi, nb, tw.
 	Lang string `json:"lang"`
 
-	// Boolean flag which is set to true if the due object represents a recurring due date.
+	// Boolean flag which is set to true if the due object represents a recurring
+	// due date.
 	IsRecurring bool `json:"is_recurring"`
 }
 

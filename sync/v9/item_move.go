@@ -1,26 +1,33 @@
 package sync
 
-// Move task to a different location.
+// Move task to a different location. See [Move an item] for more details.
 //
-// Only one of parent_id, section_id or project_id must be set.
+// Only one of parent_id, section_id or parent_id must be set. To move an item
+// out of a section, use the parent_id of its current project.
 //
-// Note, to move an item from a section to no section, just use the project_id parameter,
-// with the project it currently belongs to as a value.
+// [Move an item]: https://developer.todoist.com/sync/v9#move-an-item
 type ItemMoveArgs struct {
+	// Required.
 	// The ID of the task.
-	ID string `json:"id"` // required
+	ID string `json:"id"`
 
-	// The ID of the parent task. Set to null for root tasks.
-	ParentID *string `json:"parent_id,omitempty"` // optional
+	// Optional.
+	// The ID of the parent task. The task becomes the last child task of the
+	// parent task.
+	ParentID *string `json:"parent_id,omitempty"`
 
-	// The ID of the parent section. Set to null for tasks not belonging to a section.
-	SectionID *string `json:"section_id,omitempty"` // optional
+	// Optional.
+	// The ID of the parent section. The task becomes the last root task of the
+	// section.
+	SectionID *string `json:"section_id,omitempty"`
 
-	// The ID of the project to add the task to (a number or a temp id).
-	// By default the task is added to the user’s Inbox project.
-	ProjectID *string `json:"project_id,omitempty"` // optional
+	// Optional.
+	// The ID of the parent project. The task becomes the last root task of the
+	// project.
+	ProjectID *string `json:"project_id,omitempty"`
 }
 
-func NewItemMoveCommand(args ItemMoveArgs) *Command {
-	return NewCommand("item_move", args)
+// Return "item_move" as command type.
+func (args *ItemMoveArgs) Type() string {
+	return "item_move"
 }

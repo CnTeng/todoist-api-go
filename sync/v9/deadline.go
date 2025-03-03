@@ -5,7 +5,14 @@ import (
 	"time"
 )
 
-// Deadline represents a task's deadline.
+// Similar to due dates, deadlines can be set on tasks, and can be used to
+// differentiate between when a task should be started, and when it must be done
+// by. Unlike due dates, deadlines only support non-recurring dates with no time
+// component.
+//
+// See [Deadlines] for more details.
+//
+// [Deadlines]: https://developer.todoist.com/sync/v9#deadlines
 type Deadline struct {
 	// Deadline in the format of YYYY-MM-DD (RFC 3339).
 	Date time.Time `json:"date"`

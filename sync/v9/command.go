@@ -7,6 +7,10 @@ import (
 	"github.com/google/uuid"
 )
 
+type CommandArgs interface {
+	Type() string
+}
+
 type Command struct {
 	Type   string    `json:"type"`
 	Args   any       `json:"args"`
@@ -14,13 +18,19 @@ type Command struct {
 	TempID uuid.UUID `json:"temp_id"`
 }
 
-func NewCommand(t string, args any) *Command {
+func NewCommand(args CommandArgs) *Command {
 	return &Command{
-		Type:   t,
+		Type:   args.Type(),
 		Args:   args,
 		UUID:   uuid.New(),
 		TempID: uuid.New(),
 	}
+}
+
+func NewCommandWithTempID(args CommandArgs, tempID uuid.UUID) *Command {
+	c := NewCommand(args)
+	c.TempID = tempID
+	return c
 }
 
 type Commands []*Command
@@ -33,17 +43,4 @@ func (cs *Commands) EncodeValues(key string, v *url.Values) error {
 
 	v.Add(key, string(b))
 	return nil
-}
-
-type Response struct {
-	SyncToken    string         `json:"sync_token"`
-	FullSync     bool           `json:"full_sync"`
-	Projects     []*Project     `json:"projects"`
-	Items        []*Item        `json:"items"`
-	ItemNotes    []*ItemNote    `json:"notes"`
-	ProjectNotes []*ProjectNote `json:"project_notes"`
-	Sections     []*Section     `json:"sections"`
-	Labels       []*Label       `json:"labels"`
-	Filters      []*Filter      `json:"filters"`
-	Reminders    []*Reminder    `json:"reminders"`
 }

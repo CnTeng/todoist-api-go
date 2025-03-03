@@ -15,6 +15,23 @@ func main() {
 
 	sc := sync.NewSyncClient(token)
 
+	param := &sync.CompletedGetParams{
+		AnnotateItems: new(bool),
+	}
+	*param.AnnotateItems = true
+	cr, err := sc.GetCompletedInfo(param)
+	if err != nil {
+		panic(err)
+	}
+
+	for _, item := range cr.Items {
+		fmt.Printf("%+v\n", item)
+		if item.ItemObject != nil {
+			fmt.Println(item.ItemObject.Content)
+			fmt.Println(item.MetaData)
+		}
+	}
+
 	rp := &sync.ReadParams{
 		SyncToken:     "*",
 		ResourceTypes: &sync.ResourceTypes{sync.All},
@@ -31,13 +48,6 @@ func main() {
 		println(item.Content)
 		if item.ParentID != nil {
 			println(item.ParentID)
-		}
-
-		if item.Due.Timezone != nil {
-			println(item.Due.Timezone.String())
-			println(item.Due.Date.String())
-			println(item.Due.Date.In(item.Due.Timezone).String())
-			println(item.Due.Date.Location().String())
 		}
 	}
 }

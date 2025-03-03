@@ -8,10 +8,9 @@ import (
 )
 
 const (
-	baseURL     = "https://api.todoist.com"
-	syncVersion = "v9"
+	baseURL = "https://api.todoist.com/sync/v9"
 
-	syncEndpoint = baseURL + "/sync/" + syncVersion + "/sync"
+	syncEndpoint = baseURL + "/sync"
 )
 
 type SyncClient struct {
@@ -36,12 +35,13 @@ func (sc *SyncClient) Read(rp *ReadParams) (*Response, error) {
 	return r.WithParameters(p).Post()
 }
 
-func (sc *SyncClient) Write(wp *WriteParams) (*WriteResponse, error) {
+func (sc *SyncClient) Write(cs *Commands) (*Response, error) {
+	wp := &WriteParams{Commands: cs}
 	p, err := query.Values(wp)
 	if err != nil {
 		return nil, err
 	}
 
-	r := utils.NewRequest[WriteResponse](sc.client, syncEndpoint, sc.token)
+	r := utils.NewRequest[Response](sc.client, syncEndpoint, sc.token)
 	return r.WithParameters(p).Post()
 }
