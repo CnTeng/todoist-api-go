@@ -1,49 +1,59 @@
 package sync
 
-// Project represents a project in the Todoist application.
+// Project represents a project. See [Projects] for more details.
+//
+// [Projects]: https://developer.todoist.com/sync/v9/#projects
 type Project struct {
-	// ID is the ID of the project.
+	// The ID of the project.
 	ID string `json:"id"`
 
-	// Name is the name of the project.
+	// The name of the project.
 	Name string `json:"name"`
 
-	// Color is the color of the project icon.
-	Color string `json:"color"`
+	// The color of the project icon.
+	//
+	// See https://developer.todoist.com/guides/#colors for a list of available.
+	Color Color `json:"color"`
 
-	// ParentID is the ID of the parent project. Set to null for root projects.
+	// The ID of the parent project. Set to null for root projects.
 	ParentID *string `json:"parent_id,omitempty"`
 
-	// ChildOrder defines the position of the project among all projects with the same ParentID.
+	// The order of the project. Defines the position of the project among all the
+	// projects with the same parent_id.
 	ChildOrder int `json:"child_order"`
 
-	// Collapsed indicates whether the project's sub-projects are collapsed.
+	// Whether the project's sub-projects are collapsed.
 	Collapsed bool `json:"collapsed"`
 
-	// Shared indicates whether the project is shared.
+	// Whether the project is shared.
 	Shared bool `json:"shared"`
 
-	// CanAssignTasks indicates whether tasks in the project can be assigned to users.
+	// Whether tasks in the project can be assigned to users.
 	CanAssignTasks bool `json:"can_assign_tasks"`
 
-	// IsDeleted indicates whether the project is marked as deleted.
+	// Whether the project is marked as deleted.
 	IsDeleted bool `json:"is_deleted"`
 
-	// IsArchived indicates whether the project is marked as archived.
+	// Whether the project is marked as archived.
 	IsArchived bool `json:"is_archived"`
 
-	// IsFavorite indicates whether the project is a favorite.
+	// Whether the project is a favorite.
 	IsFavorite bool `json:"is_favorite"`
 
-	// SyncID is the identifier to find the match between different copies of shared projects.
+	// Identifier to find the match between different copies of shared projects.
+	// When you share a project, its copy has a different ID for your
+	// collaborators. To find a project in a different account that matches yours,
+	// you can use the "sync_id" attribute. For non-shared projects the attribute
+	// is set to null.
 	SyncID *string `json:"sync_id,omitempty"`
 
-	// InboxProject indicates whether the project is Inbox.
+	// Whether the project is Inbox.
 	InboxProject bool `json:"inbox_project,omitempty"`
 
-	// TeamInbox indicates whether the project is TeamInbox.
+	// Whether the project is TeamInbox.
 	TeamInbox bool `json:"team_inbox,omitempty"`
 
-	// ViewStyle determines the way the project is displayed (either list or board).
+	// A string value (either list or board). This determines the way the project
+	// is displayed within the Todoist clients.
 	ViewStyle string `json:"view_style"`
 }
