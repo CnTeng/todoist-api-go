@@ -6,58 +6,48 @@ import (
 )
 
 const (
-	quickAddEndpoint    = baseURL + "/quick/add"
-	getItemInfoEndpoint = baseURL + "/items/get"
+	quickAddEndpoint = baseURL + "/quick/add"
+	getItemsEndpoint = baseURL + "/items/get"
 )
 
 func (sc *SyncClient) AddItem(args *ItemAddArgs) (*Response, error) {
-	cs := &Commands{NewCommand(args)}
-	return sc.Write(cs)
+	return sc.executeCommand(args)
 }
 
 func (sc *SyncClient) UpdateItem(args *ItemUpdateArgs) (*Response, error) {
-	cs := &Commands{NewCommand(args)}
-	return sc.Write(cs)
+	return sc.executeCommand(args)
 }
 
 func (sc *SyncClient) MoveItem(args *ItemMoveArgs) (*Response, error) {
-	cs := &Commands{NewCommand(args)}
-	return sc.Write(cs)
+	return sc.executeCommand(args)
 }
 
 func (sc *SyncClient) ReorderItems(args *ItemReorderArgs) (*Response, error) {
-	cs := &Commands{NewCommand(args)}
-	return sc.Write(cs)
+	return sc.executeCommand(args)
 }
 
 func (sc *SyncClient) DeleteItem(args *ItemDeleteArgs) (*Response, error) {
-	cs := &Commands{NewCommand(args)}
-	return sc.Write(cs)
+	return sc.executeCommand(args)
 }
 
 func (sc *SyncClient) CompleteItem(args *ItemCompleteArgs) (*Response, error) {
-	cs := &Commands{NewCommand(args)}
-	return sc.Write(cs)
+	return sc.executeCommand(args)
 }
 
 func (sc *SyncClient) UncompleteItem(args *ItemUncompleteArgs) (*Response, error) {
-	cs := &Commands{NewCommand(args)}
-	return sc.Write(cs)
+	return sc.executeCommand(args)
 }
 
 func (sc *SyncClient) CompleteRecurringItem(args *ItemCompleteRecurringArgs) (*Response, error) {
-	cs := &Commands{NewCommand(args)}
-	return sc.Write(cs)
+	return sc.executeCommand(args)
 }
 
 func (sc *SyncClient) CloseItem(args *ItemCloseArgs) (*Response, error) {
-	cs := &Commands{NewCommand(args)}
-	return sc.Write(cs)
+	return sc.executeCommand(args)
 }
 
 func (sc *SyncClient) UpdateItemDayOrders(args *ItemUpdateDayOrdersArgs) (*Response, error) {
-	cs := &Commands{NewCommand(args)}
-	return sc.Write(cs)
+	return sc.executeCommand(args)
 }
 
 func (sc *SyncClient) GetItemInfo(params *ItemGetInfoParams) (*ItemGetInfoResponse, error) {
@@ -66,7 +56,7 @@ func (sc *SyncClient) GetItemInfo(params *ItemGetInfoParams) (*ItemGetInfoRespon
 		return nil, err
 	}
 
-	r := utils.NewRequest[ItemGetInfoResponse](sc.client, getItemInfoEndpoint, sc.token)
+	r := utils.NewRequest[ItemGetInfoResponse](sc.client, getItemsEndpoint, sc.token)
 	return r.WithParameters(p).Post()
 }
 
