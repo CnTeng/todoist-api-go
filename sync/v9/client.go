@@ -45,3 +45,19 @@ func (sc *SyncClient) Write(cs *Commands) (*Response, error) {
 	r := utils.NewRequest[Response](sc.client, syncEndpoint, sc.token)
 	return r.WithParameters(p).Post()
 }
+
+func (sc *SyncClient) executeCommand(args CommandArgs) (*Response, error) {
+	c := NewCommand(args)
+
+	resp, err := sc.Write(&Commands{c})
+	if err != nil {
+		return nil, err
+	}
+
+	err = resp.SyncStatus[c.UUID]
+	if err != nil {
+		return nil, err
+	}
+
+	return resp, nil
+}
