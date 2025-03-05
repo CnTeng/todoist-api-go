@@ -8,6 +8,7 @@
   - Templates (no plan)
 - [x] Sections
 - [x] Items
+- [x] Labels
 - [ ] Notes
 - [ ] Uploads
 - [ ] Filters
