@@ -1,22 +1,27 @@
 package sync
 
-// Label represents a personal label in the Todoist application.
+// Label represents a personal label.
+//
+// See [Labels] for more details.
+//
+// [Labels]: https://developer.todoist.com/sync/v9/#labels
 type Label struct {
-	// ID is the ID of the label.
+	// The ID of the label.
 	ID string `json:"id"`
 
-	// Name is the name of the label.
+	// The name of the label.
 	Name string `json:"name"`
 
-	// Color is the color of the label icon.
-	Color string `json:"color"`
+	// The color of the label icon. See
+	// https://developer.todoist.com/guides/#colors for a list of available.
+	Color Color `json:"color"`
 
-	// ItemOrder is the label’s order in the label list.
+	// The order of the Label in the label list.
 	ItemOrder int `json:"item_order"`
 
-	// IsDeleted indicates whether the label is marked as deleted.
+	// Whether the label is marked as deleted.
 	IsDeleted bool `json:"is_deleted"`
 
-	// IsFavorite indicates whether the label is a favorite.
+	// Whether the label is a favorite.
 	IsFavorite bool `json:"is_favorite"`
 }

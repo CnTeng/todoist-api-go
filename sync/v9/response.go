@@ -39,8 +39,7 @@ type Response struct {
 	// TODO:
 	LiveNotificationsLastReadID string `json:"live_notifications_last_read_id"`
 
-	// TODO:
-	Locations []any `json:"locations"`
+	Locations []*Location `json:"locations"`
 
 	ProjectNotes []*ProjectNote `json:"project_notes"`
 
@@ -48,7 +47,6 @@ type Response struct {
 
 	Reminders []*Reminder `json:"reminders"`
 
-	// TODO:
 	Sections []*Section `json:"sections"`
 
 	// TODO:
@@ -61,7 +59,6 @@ type Response struct {
 
 	SyncToken string `json:"sync_token"`
 
-	// TODO:
 	TempIDMapping map[uuid.UUID]string `json:"temp_id_mapping"`
 
 	// TODO:

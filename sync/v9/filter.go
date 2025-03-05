@@ -1,25 +1,30 @@
 package sync
 
-// Filter represents a filter in the Todoist application.
+// Filter represents a filter.
+//
+// See [Filters] for more details.
+//
+// [Filters]: https://developer.todoist.com/sync/v9/#filters
 type Filter struct {
-	// ID is the ID of the filter.
+	// The ID of the filter.
 	ID string `json:"id"`
 
-	// Name is the name of the filter.
+	// The name of the filter.
 	Name string `json:"name"`
 
-	// Query is the query to search for. Examples of searches can be found in the Todoist help page.
+	// The query to search for.
 	Query string `json:"query"`
 
-	// Color is the color of the filter icon.
-	Color string `json:"color"`
+	// The color of the filter icon. See
+	// https://developer.todoist.com/guides/#colors for a list of available.
+	Color Color `json:"color"`
 
-	// ItemOrder is the filter’s order in the filter list.
+	// Filter’s order in the filter list.
 	ItemOrder int `json:"item_order"`
 
-	// IsDeleted indicates whether the filter is marked as deleted.
+	// Whether the filter is marked as deleted/
 	IsDeleted bool `json:"is_deleted"`
 
-	// IsFavorite indicates whether the filter is a favorite.
+	// Whether the filter is a favorite.
 	IsFavorite bool `json:"is_favorite"`
 }

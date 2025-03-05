@@ -1,21 +1,21 @@
 package sync
 
-// Reminder represents a reminder.
+// Update a reminder from the user account.
 //
-// See [Reminders] for more details.
+// See [Update a reminder] for more details.
 //
-// [Reminders]: https://developer.todoist.com/sync/v9/#reminders
-type Reminder struct {
+// [Update a reminder]: https://developer.todoist.com/sync/v9/#update-a-reminder
+type ReminderUpdateArgs struct {
+	// Required.
 	// The ID of the reminder.
 	ID string `json:"id"`
 
+	// Optional.
 	// The user ID which should be notified of the reminder, typically the current
 	// user ID creating the reminder.
-	NotifyUID string `json:"notify_uid"`
+	NotifyUID *string `json:"notify_uid,omitempty"`
 
-	// The item ID for which the reminder is about.
-	ItemID string `json:"item_id"`
-
+	// Required.
 	// The type of the reminder:
 	//
 	//   - relative: a time-based reminder specified in minutes from now.
@@ -23,48 +23,43 @@ type Reminder struct {
 	//   - location: a location-based reminder.
 	ReminderType ReminderType `json:"type"`
 
+	// Optional.
 	// The due date of the reminder. Reminders only support due dates with time,
 	// since full-day reminders don't make sense.
-	Due Due `json:"due"`
+	Due *Due `json:"due,omitempty"`
 
+	// Optional.
 	// The relative time in minutes before the due date of the item, in which the
 	// reminder should be triggered. Note that the item should have a due date
 	// with time set in order to add a relative reminder.
-	MinuteOffset int `json:"minute_offset"`
+	MinuteOffset int `json:"minute_offset,omitempty"`
 
+	// Optional.
 	// An alias name for the location.
-	Name *string `json:"name"`
+	Name *string `json:"name,omitempty"`
 
+	// Optional.
 	// The location latitude.
-	LocLat *string `json:"loc_lat"`
+	LocLat *string `json:"loc_lat,omitempty"`
 
+	// Optional.
 	// The location longitude.
-	LocLong *string `json:"loc_long"`
+	LocLong *string `json:"loc_long,omitempty"`
 
+	// Optional.
 	// What should trigger the reminder:
 	//
 	//   - on_enter: entering the location.
 	//   - on_leave: leaving the location.
-	LocTrigger *string `json:"loc_trigger"`
+	LocTrigger *string `json:"loc_trigger,omitempty"`
 
+	// Optional.
 	// The radius around the location that is still considered as part of the
 	// location (in meters).
-	Radius *int `json:"radius"`
-
-	// Whether the reminder is marked as deleted.
-	IsDeleted bool `json:"is_deleted"`
+	Radius *int `json:"radius,omitempty"`
 }
 
-// The type of the reminder
-type ReminderType string
-
-const (
-	// A location-based reminder.
-	RelativeReminder ReminderType = "relative"
-
-	// A time-based reminder with a specific time and date in the future.
-	AbsoluteReminder ReminderType = "absolute"
-
-	// A time-based reminder specified in minutes from now.
-	LocationReminder ReminderType = "location"
-)
+// Return "reminder_update" as command type.
+func (args *ReminderUpdateArgs) Type() string {
+	return "reminder_update"
+}
