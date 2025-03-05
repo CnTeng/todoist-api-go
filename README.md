@@ -12,7 +12,7 @@
 - Notes (no plan)
 - Uploads (no plan)
 - [x] Filters
-- [ ] Reminders
+- [x] Reminders
 - [x] Due Dates
 - [x] Deadlines
 - [ ] User
