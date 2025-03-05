@@ -9,9 +9,9 @@
 - [x] Sections
 - [x] Items
 - [x] Labels
-- [ ] Notes
-- [ ] Uploads
-- [ ] Filters
+- Notes (no plan)
+- Uploads (no plan)
+- [x] Filters
 - [ ] Reminders
 - [x] Due Dates
 - [x] Deadlines
