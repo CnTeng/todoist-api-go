@@ -11,7 +11,8 @@ type ItemNote struct {
 	// ItemID is the item which the note is part of.
 	ItemID string `json:"item_id"`
 
-	// Content is the content of the note. This value may contain markdown-formatted text and hyperlinks.
+	// Content is the content of the note. This value may contain
+	// markdown-formatted text and hyperlinks.
 	Content string `json:"content"`
 
 	// FileAttachment is a file attached to the note.
@@ -41,7 +42,8 @@ type ProjectNote struct {
 	// ItemID is the item which the note is part of.
 	ProjectID string `json:"project_id"`
 
-	// Content is the content of the note. This value may contain markdown-formatted text and hyperlinks.
+	// Content is the content of the note. This value may contain
+	// markdown-formatted text and hyperlinks.
 	Content string `json:"content"`
 
 	// FileAttachment is a file attached to the note.

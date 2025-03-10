@@ -10,9 +10,8 @@ type Project struct {
 	// The name of the project.
 	Name string `json:"name"`
 
-	// The color of the project icon.
-	//
-	// See https://developer.todoist.com/guides/#colors for a list of available.
+	// The color of the project icon. See
+	// https://developer.todoist.com/guides/#colors for a list of available.
 	Color Color `json:"color"`
 
 	// The ID of the parent project. Set to null for root projects.

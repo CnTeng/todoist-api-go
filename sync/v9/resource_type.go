@@ -5,11 +5,6 @@ import (
 	"net/url"
 )
 
-type ReadParams struct {
-	SyncToken     string         `json:"sync_token"     url:"sync_token"`
-	ResourceTypes *ResourceTypes `json:"resource_types" url:"resource_types"`
-}
-
 type ResourceType string
 
 const (

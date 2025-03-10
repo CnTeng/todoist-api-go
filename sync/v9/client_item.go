@@ -1,71 +1,56 @@
 package sync
 
-import (
-	"github.com/CnTeng/todoist-api-go/internal/utils"
-	"github.com/google/go-querystring/query"
-)
+import "context"
 
 const (
 	quickAddEndpoint = baseURL + "/quick/add"
 	getItemsEndpoint = baseURL + "/items/get"
 )
 
-func (sc *SyncClient) AddItem(args *ItemAddArgs) (*Response, error) {
-	return sc.executeCommand(args)
+func (c *Client) AddItem(ctx context.Context, args *ItemAddArgs) (*SyncResponse, error) {
+	return c.executeCommand(ctx, args)
 }
 
-func (sc *SyncClient) UpdateItem(args *ItemUpdateArgs) (*Response, error) {
-	return sc.executeCommand(args)
+func (c *Client) UpdateItem(ctx context.Context, args *ItemUpdateArgs) (*SyncResponse, error) {
+	return c.executeCommand(ctx, args)
 }
 
-func (sc *SyncClient) MoveItem(args *ItemMoveArgs) (*Response, error) {
-	return sc.executeCommand(args)
+func (c *Client) MoveItem(ctx context.Context, args *ItemMoveArgs) (*SyncResponse, error) {
+	return c.executeCommand(ctx, args)
 }
 
-func (sc *SyncClient) ReorderItems(args *ItemReorderArgs) (*Response, error) {
-	return sc.executeCommand(args)
+func (c *Client) ReorderItems(ctx context.Context, args *ItemReorderArgs) (*SyncResponse, error) {
+	return c.executeCommand(ctx, args)
 }
 
-func (sc *SyncClient) DeleteItem(args *ItemDeleteArgs) (*Response, error) {
-	return sc.executeCommand(args)
+func (c *Client) DeleteItem(ctx context.Context, args *ItemDeleteArgs) (*SyncResponse, error) {
+	return c.executeCommand(ctx, args)
 }
 
-func (sc *SyncClient) CompleteItem(args *ItemCompleteArgs) (*Response, error) {
-	return sc.executeCommand(args)
+func (c *Client) CompleteItem(ctx context.Context, args *ItemCompleteArgs) (*SyncResponse, error) {
+	return c.executeCommand(ctx, args)
 }
 
-func (sc *SyncClient) UncompleteItem(args *ItemUncompleteArgs) (*Response, error) {
-	return sc.executeCommand(args)
+func (c *Client) UncompleteItem(ctx context.Context, args *ItemUncompleteArgs) (*SyncResponse, error) {
+	return c.executeCommand(ctx, args)
 }
 
-func (sc *SyncClient) CompleteRecurringItem(args *ItemCompleteRecurringArgs) (*Response, error) {
-	return sc.executeCommand(args)
+func (c *Client) CompleteRecurringItem(ctx context.Context, args *ItemCompleteRecurringArgs) (*SyncResponse, error) {
+	return c.executeCommand(ctx, args)
 }
 
-func (sc *SyncClient) CloseItem(args *ItemCloseArgs) (*Response, error) {
-	return sc.executeCommand(args)
+func (c *Client) CloseItem(ctx context.Context, args *ItemCloseArgs) (*SyncResponse, error) {
+	return c.executeCommand(ctx, args)
 }
 
-func (sc *SyncClient) UpdateItemDayOrders(args *ItemUpdateDayOrdersArgs) (*Response, error) {
-	return sc.executeCommand(args)
+func (c *Client) UpdateItemDayOrders(ctx context.Context, args *ItemUpdateDayOrdersArgs) (*SyncResponse, error) {
+	return c.executeCommand(ctx, args)
 }
 
-func (sc *SyncClient) GetItemInfo(params *ItemGetInfoParams) (*ItemGetInfoResponse, error) {
-	p, err := query.Values(params)
-	if err != nil {
-		return nil, err
-	}
-
-	r := utils.NewRequest[ItemGetInfoResponse](sc.client, getItemsEndpoint, sc.token)
-	return r.WithParameters(p).Post()
+func (c *Client) GetItemInfo(ctx context.Context, params *ItemGetInfoParams) (*ItemGetInfoResponse, error) {
+	return do[ItemGetInfoParams, ItemGetInfoResponse](ctx, c, getItemsEndpoint, params)
 }
 
-func (sc *SyncClient) QuickAddItem(params *ItemQuickAddParams) (*Item, error) {
-	p, err := query.Values(params)
-	if err != nil {
-		return nil, err
-	}
-
-	r := utils.NewRequest[Item](sc.client, quickAddEndpoint, sc.token)
-	return r.WithParameters(p).Post()
+func (c *Client) QuickAddItem(ctx context.Context, params *ItemQuickAddParams) (*Item, error) {
+	return do[ItemQuickAddParams, Item](ctx, c, quickAddEndpoint, params)
 }

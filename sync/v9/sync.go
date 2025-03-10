@@ -8,9 +8,15 @@ import (
 	"github.com/google/uuid"
 )
 
+type SyncParams struct {
+	SyncToken     *string        `json:"sync_token,omitempty"     url:"sync_token,omitempty"`
+	ResourceTypes *ResourceTypes `json:"resource_types,omitempty" url:"resource_types,omitempty"`
+	Commands      *Commands      `json:"commands,omitempty"       url:"commands,omitempty"`
+}
+
 const syncStatusOk = "ok"
 
-type Response struct {
+type SyncResponse struct {
 	// TODO:
 	CompletedInfo []any `json:"completed_info"`
 
@@ -71,8 +77,8 @@ type Response struct {
 	UserSettings map[string]any `json:"user_settings"`
 }
 
-func (r *Response) UnmarshalJSON(data []byte) error {
-	type alias Response
+func (r *SyncResponse) UnmarshalJSON(data []byte) error {
+	type alias SyncResponse
 	aux := &struct {
 		SyncStatus map[uuid.UUID]any `json:"sync_status"`
 		*alias

@@ -18,7 +18,6 @@ type request[T any] struct {
 	body     any
 
 	client *http.Client
-	ctx    context.Context
 }
 
 func NewRequest[T any](client *http.Client, endpoint, token string) *request[T] {
@@ -40,24 +39,19 @@ func (r *request[T]) WithBody(body any) *request[T] {
 	return r
 }
 
-func (r *request[T]) WithContext(ctx context.Context) *request[T] {
-	r.ctx = ctx
-	return r
+func (r *request[T]) Get(ctx context.Context) (*T, error) {
+	return r.do(ctx, http.MethodGet)
 }
 
-func (r *request[T]) Get() (*T, error) {
-	return r.do(http.MethodGet)
+func (r *request[T]) Post(ctx context.Context) (*T, error) {
+	return r.do(ctx, http.MethodPost)
 }
 
-func (r *request[T]) Post() (*T, error) {
-	return r.do(http.MethodPost)
+func (r *request[T]) Delete(ctx context.Context) (*T, error) {
+	return r.do(ctx, http.MethodDelete)
 }
 
-func (r *request[T]) Delete() (*T, error) {
-	return r.do(http.MethodDelete)
-}
-
-func (r *request[T]) do(method string) (*T, error) {
+func (r *request[T]) do(ctx context.Context, method string) (*T, error) {
 	u, err := url.Parse(r.endpoint)
 	if err != nil {
 		return nil, err
@@ -75,11 +69,7 @@ func (r *request[T]) do(method string) (*T, error) {
 		body = bytes.NewBuffer(b)
 	}
 
-	if r.ctx == nil {
-		r.ctx = context.Background()
-	}
-
-	req, err := http.NewRequestWithContext(r.ctx, method, u.String(), body)
+	req, err := http.NewRequestWithContext(ctx, method, u.String(), body)
 	if err != nil {
 		return nil, err
 	}
