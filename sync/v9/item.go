@@ -1,5 +1,7 @@
 package sync
 
+import "time"
+
 // Item represents a task. See [Items] for more details.
 //
 // [Items]: https://developer.todoist.com/sync/v9#items
@@ -89,7 +91,7 @@ type Item struct {
 	CompletedAt *string `json:"completed_at"`
 
 	// The date when the task was created.
-	AddedAt string `json:"added_at"`
+	AddedAt time.Time `json:"added_at"`
 
 	// The duration of the task.
 	Duration *Duration `json:"duration"`

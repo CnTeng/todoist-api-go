@@ -1,18 +1,20 @@
 package sync
 
-func (sc *SyncClient) AddFilter(args *FilterAddArgs) (*Response, error) {
-	return sc.executeCommand(args)
+import "context"
+
+func (c *Client) AddFilter(ctx context.Context, args *FilterAddArgs) (*SyncResponse, error) {
+	return c.executeCommand(ctx, args)
 }
 
-func (sc *SyncClient) UpdateFilter(args *FilterUpdateArgs) (*Response, error) {
-	return sc.executeCommand(args)
+func (c *Client) UpdateFilter(ctx context.Context, args *FilterUpdateArgs) (*SyncResponse, error) {
+	return c.executeCommand(ctx, args)
 }
 
-func (sc *SyncClient) DeleteFilter(id string) (*Response, error) {
+func (c *Client) DeleteFilter(ctx context.Context, id string) (*SyncResponse, error) {
 	args := &FilterDeleteArgs{ID: id}
-	return sc.executeCommand(args)
+	return c.executeCommand(ctx, args)
 }
 
-func (sc *SyncClient) ReorderFilters(args *FilterReorderArgs) (*Response, error) {
-	return sc.executeCommand(args)
+func (c *Client) ReorderFilters(ctx context.Context, args *FilterReorderArgs) (*SyncResponse, error) {
+	return c.executeCommand(ctx, args)
 }

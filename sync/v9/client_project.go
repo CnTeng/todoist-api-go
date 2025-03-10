@@ -1,9 +1,6 @@
 package sync
 
-import (
-	"github.com/CnTeng/todoist-api-go/internal/utils"
-	"github.com/google/go-querystring/query"
-)
+import "context"
 
 const (
 	projectsGetEndpoint         = baseURL + "/projects/get"
@@ -11,64 +8,45 @@ const (
 	projectsGetArchivedEndpoint = baseURL + "/projects/get_archived"
 )
 
-func (sc *SyncClient) AddProject(args *ProjectAddArgs) (*Response, error) {
-	return sc.executeCommand(args)
+func (c *Client) AddProject(ctx context.Context, args *ProjectAddArgs) (*SyncResponse, error) {
+	return c.executeCommand(ctx, args)
 }
 
-func (sc *SyncClient) UpdateProject(args *ProjectUpdateArgs) (*Response, error) {
-	return sc.executeCommand(args)
+func (c *Client) UpdateProject(ctx context.Context, args *ProjectUpdateArgs) (*SyncResponse, error) {
+	return c.executeCommand(ctx, args)
 }
 
-func (sc *SyncClient) MoveProject(args *ProjectMoveArgs) (*Response, error) {
-	return sc.executeCommand(args)
+func (c *Client) MoveProject(ctx context.Context, args *ProjectMoveArgs) (*SyncResponse, error) {
+	return c.executeCommand(ctx, args)
 }
 
-func (sc *SyncClient) DeleteProject(id string) (*Response, error) {
+func (c *Client) DeleteProject(ctx context.Context, id string) (*SyncResponse, error) {
 	args := &ProjectDeleteArgs{ID: id}
-	return sc.executeCommand(args)
+	return c.executeCommand(ctx, args)
 }
 
-func (sc *SyncClient) ArchiveProject(id string) (*Response, error) {
+func (c *Client) ArchiveProject(ctx context.Context, id string) (*SyncResponse, error) {
 	args := &ProjectArchiveArgs{ID: id}
-	return sc.executeCommand(args)
+	return c.executeCommand(ctx, args)
 }
 
-func (sc *SyncClient) UnarchiveProject(id string) (*Response, error) {
+func (c *Client) UnarchiveProject(ctx context.Context, id string) (*SyncResponse, error) {
 	args := &ProjectUnarchiveArgs{ID: id}
-	return sc.executeCommand(args)
+	return c.executeCommand(ctx, args)
 }
 
-func (sc *SyncClient) ReorderProject(args *ProjectReorderArgs) (*Response, error) {
-	return sc.executeCommand(args)
+func (c *Client) ReorderProject(ctx context.Context, args *ProjectReorderArgs) (*SyncResponse, error) {
+	return c.executeCommand(ctx, args)
 }
 
-func (sc *SyncClient) GetProjectInfo(params *ProjectGetInfoParams) (*ProjectGetInfoResponse, error) {
-	p, err := query.Values(params)
-	if err != nil {
-		return nil, err
-	}
-
-	r := utils.NewRequest[ProjectGetInfoResponse](sc.client, projectsGetEndpoint, sc.token)
-	return r.WithParameters(p).Post()
+func (c *Client) GetProjectInfo(ctx context.Context, params *ProjectGetInfoParams) (*ProjectGetInfoResponse, error) {
+	return do[ProjectGetInfoParams, ProjectGetInfoResponse](ctx, c, projectsGetEndpoint, params)
 }
 
-func (sc *SyncClient) GetProjectData(id string) (*ProjectGetDataResponse, error) {
-	params := &ProjectGetDataParams{ProjectID: id}
-	p, err := query.Values(params)
-	if err != nil {
-		return nil, err
-	}
-
-	r := utils.NewRequest[ProjectGetDataResponse](sc.client, projectsGetDataEndpoint, sc.token)
-	return r.WithParameters(p).Post()
+func (c *Client) GetProjectData(ctx context.Context, id string) (*ProjectGetDataResponse, error) {
+	return do[ProjectGetDataParams, ProjectGetDataResponse](ctx, c, projectsGetDataEndpoint, &ProjectGetDataParams{ProjectID: id})
 }
 
-func (sc *SyncClient) GetArchivedProjects(params *ProjectGetArchivedParams) (*ProjectGetArchivedResponse, error) {
-	p, err := query.Values(params)
-	if err != nil {
-		return nil, err
-	}
-
-	r := utils.NewRequest[ProjectGetArchivedResponse](sc.client, projectsGetArchivedEndpoint, sc.token)
-	return r.WithParameters(p).Post()
+func (c *Client) GetArchivedProjects(ctx context.Context, params *ProjectGetArchivedParams) (*ProjectGetArchivedResponse, error) {
+	return do[ProjectGetArchivedParams, ProjectGetArchivedResponse](ctx, c, projectsGetArchivedEndpoint, params)
 }

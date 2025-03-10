@@ -1,6 +1,8 @@
 package sync
 
-func (sc *SyncClient) ClearLocations() (*Response, error) {
+import "context"
+
+func (sc *Client) ClearLocations(ctx context.Context) (*SyncResponse, error) {
 	args := &LoactionClearArgs{}
-	return sc.executeCommand(args)
+	return sc.ExecuteCommand(ctx, args)
 }
