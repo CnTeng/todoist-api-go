@@ -15,34 +15,29 @@ const (
 )
 
 type Handler interface {
-	SyncToken() *string
-	ResourceTypes() *ResourceTypes
+	SyncToken() (*string, error)
+	ResourceTypes() (*ResourceTypes, error)
 	HandleResponse(resp any) error
 }
 
+var DefaultHandler = &defaultHandler{syncToken: "*"}
+
 type defaultHandler struct {
-	syncToken *string
+	syncToken string
 }
 
-func newDefaultHandler() *defaultHandler {
-	token := "*"
-	return &defaultHandler{
-		syncToken: &token,
-	}
+func (h *defaultHandler) SyncToken() (*string, error) {
+	return &h.syncToken, nil
 }
 
-func (h *defaultHandler) SyncToken() *string {
-	return h.syncToken
-}
-
-func (h *defaultHandler) ResourceTypes() *ResourceTypes {
-	return &ResourceTypes{"all"}
+func (h *defaultHandler) ResourceTypes() (*ResourceTypes, error) {
+	return &ResourceTypes{All}, nil
 }
 
 func (h *defaultHandler) HandleResponse(resp any) error {
 	switch r := resp.(type) {
 	case *SyncResponse:
-		h.syncToken = &r.SyncToken
+		h.syncToken = r.SyncToken
 	}
 	return nil
 }
@@ -54,7 +49,7 @@ type Client struct {
 }
 
 func NewClient(client *http.Client, token string) *Client {
-	return NewClientWithHandler(client, token, newDefaultHandler())
+	return NewClientWithHandler(client, token, DefaultHandler)
 }
 
 func NewClientWithHandler(client *http.Client, token string, handler Handler) *Client {
@@ -89,7 +84,17 @@ func (c *Client) do(ctx context.Context, p *SyncParams) (*SyncResponse, error) {
 }
 
 func (c *Client) executeCommands(ctx context.Context, cmds *Commands) (*SyncResponse, error) {
-	p := &SyncParams{SyncToken: c.handler.SyncToken(), ResourceTypes: c.handler.ResourceTypes(), Commands: cmds}
+	st, err := c.handler.SyncToken()
+	if err != nil {
+		return nil, err
+	}
+
+	rt, err := c.handler.ResourceTypes()
+	if err != nil {
+		return nil, err
+	}
+
+	p := &SyncParams{SyncToken: st, ResourceTypes: rt, Commands: cmds}
 	return c.do(ctx, p)
 }
 
@@ -103,13 +108,29 @@ func (c *Client) Do(ctx context.Context, p *SyncParams) (*SyncResponse, error) {
 }
 
 func (c *Client) Sync(ctx context.Context) (*SyncResponse, error) {
-	p := &SyncParams{SyncToken: c.handler.SyncToken(), ResourceTypes: c.handler.ResourceTypes()}
+	st, err := c.handler.SyncToken()
+	if err != nil {
+		return nil, err
+	}
+
+	rt, err := c.handler.ResourceTypes()
+	if err != nil {
+		return nil, err
+	}
+
+	p := &SyncParams{SyncToken: st, ResourceTypes: rt}
 	return c.do(ctx, p)
 }
 
 func (c *Client) SyncForced(ctx context.Context) (*SyncResponse, error) {
-	token := "*"
-	p := &SyncParams{SyncToken: &token, ResourceTypes: c.handler.ResourceTypes()}
+	st := "*"
+
+	rt, err := c.handler.ResourceTypes()
+	if err != nil {
+		return nil, err
+	}
+
+	p := &SyncParams{SyncToken: &st, ResourceTypes: rt}
 	return c.do(ctx, p)
 }
 
