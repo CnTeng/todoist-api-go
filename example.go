@@ -27,7 +27,7 @@ func main() {
 
 	fmt.Printf("%v\n", string(rj))
 
-	rr, err := c.Sync(context.Background())
+	rr, err := c.Sync(context.Background(), true)
 	if err != nil {
 		panic(err)
 	}
