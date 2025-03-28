@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/CnTeng/todoist-api-go/sync/v9"
+	"github.com/CnTeng/todoist-api-go/sync"
 )
 
 func main() {
@@ -16,7 +16,7 @@ func main() {
 		panic(err)
 	}
 
-	c := sync.NewClient(http.DefaultClient, token)
+	c := sync.NewClient(http.DefaultClient, token, sync.DefaultHandler)
 
 	r, err := c.AddItem(context.Background(), &sync.ItemAddArgs{Content: "Test Item"})
 	if err != nil {
