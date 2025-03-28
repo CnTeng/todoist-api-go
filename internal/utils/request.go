@@ -5,7 +5,6 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"io"
 	"net/http"
 	"net/url"
@@ -57,8 +56,6 @@ func (r *request[T]) do(ctx context.Context, method string) (*T, error) {
 		return nil, err
 	}
 	u.RawQuery = r.params.Encode()
-
-	fmt.Println(u.String())
 
 	var body io.Reader
 	if r.body != nil {
