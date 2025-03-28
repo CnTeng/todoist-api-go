@@ -9,38 +9,9 @@ import (
 )
 
 const (
-	baseURL = "https://api.todoist.com/sync/v9"
-
+	baseURL      = "https://api.todoist.com/sync/v9"
 	syncEndpoint = baseURL + "/sync"
 )
-
-type Handler interface {
-	SyncToken() (*string, error)
-	ResourceTypes() (*ResourceTypes, error)
-	HandleResponse(resp any) error
-}
-
-var DefaultHandler = &defaultHandler{syncToken: "*"}
-
-type defaultHandler struct {
-	syncToken string
-}
-
-func (h *defaultHandler) SyncToken() (*string, error) {
-	return &h.syncToken, nil
-}
-
-func (h *defaultHandler) ResourceTypes() (*ResourceTypes, error) {
-	return &ResourceTypes{All}, nil
-}
-
-func (h *defaultHandler) HandleResponse(resp any) error {
-	switch r := resp.(type) {
-	case *SyncResponse:
-		h.syncToken = r.SyncToken
-	}
-	return nil
-}
 
 type Client struct {
 	client  *http.Client
@@ -48,11 +19,7 @@ type Client struct {
 	handler Handler
 }
 
-func NewClient(client *http.Client, token string) *Client {
-	return NewClientWithHandler(client, token, DefaultHandler)
-}
-
-func NewClientWithHandler(client *http.Client, token string, handler Handler) *Client {
+func NewClient(client *http.Client, token string, handler Handler) *Client {
 	return &Client{
 		client:  client,
 		token:   token,
