@@ -61,7 +61,7 @@ func (c Color) Hex() string {
 	return colorMap[string(c)].hex
 }
 
-func (c Color) RGB() (uint, uint, uint) {
+func (c Color) RGB() (int, int, int) {
 	rgb := colorMap[string(c)].rgb
-	return uint(rgb.r), uint(rgb.g), uint(rgb.b)
+	return int(rgb.r), int(rgb.g), int(rgb.b)
 }

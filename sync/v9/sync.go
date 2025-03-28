@@ -14,7 +14,10 @@ type SyncParams struct {
 	Commands      *Commands      `json:"commands,omitempty"       url:"commands,omitempty"`
 }
 
-const syncStatusOk = "ok"
+const (
+	defaultSyncToken = "*"
+	syncStatusOk     = "ok"
+)
 
 type SyncResponse struct {
 	// TODO:

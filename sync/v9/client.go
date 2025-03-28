@@ -107,10 +107,17 @@ func (c *Client) Do(ctx context.Context, p *SyncParams) (*SyncResponse, error) {
 	return c.do(ctx, p)
 }
 
-func (c *Client) Sync(ctx context.Context) (*SyncResponse, error) {
-	st, err := c.handler.SyncToken()
-	if err != nil {
-		return nil, err
+func (c *Client) Sync(ctx context.Context, isForce bool) (*SyncResponse, error) {
+	var syncToken string
+
+	if isForce {
+		syncToken = defaultSyncToken
+	} else {
+		st, err := c.handler.SyncToken()
+		if err != nil {
+			return nil, err
+		}
+		syncToken = *st
 	}
 
 	rt, err := c.handler.ResourceTypes()
@@ -118,19 +125,7 @@ func (c *Client) Sync(ctx context.Context) (*SyncResponse, error) {
 		return nil, err
 	}
 
-	p := &SyncParams{SyncToken: st, ResourceTypes: rt}
-	return c.do(ctx, p)
-}
-
-func (c *Client) SyncForced(ctx context.Context) (*SyncResponse, error) {
-	st := "*"
-
-	rt, err := c.handler.ResourceTypes()
-	if err != nil {
-		return nil, err
-	}
-
-	p := &SyncParams{SyncToken: &st, ResourceTypes: rt}
+	p := &SyncParams{SyncToken: &syncToken, ResourceTypes: rt}
 	return c.do(ctx, p)
 }
 
