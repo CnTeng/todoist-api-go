@@ -96,12 +96,3 @@ type Item struct {
 	// The duration of the task.
 	Duration *Duration `json:"duration"`
 }
-
-// Duration represents a task's duration.
-type Duration struct {
-	// Time the task will take.
-	Amount int `json:"amount"`
-
-	// The amount represents which must be either minute or day.
-	Unit string `json:"unit"`
-}
