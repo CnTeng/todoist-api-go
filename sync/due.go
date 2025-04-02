@@ -45,7 +45,7 @@ const floatingDateTime = "2006-01-02T15:04:05.000000"
 // [Due dates]: https://developer.todoist.com/sync/v9#due-dates
 type Due struct {
 	// Due date.
-	Date time.Time `json:"date"`
+	Date *time.Time `json:"date"`
 
 	// Timezone of the due instance.
 	//
@@ -56,7 +56,7 @@ type Due struct {
 	// object in user's timezone. See
 	// https://todoist.com/help/articles/introduction-to-dates-and-time-q7VobO for
 	// more details.
-	String string `json:"string"`
+	String *string `json:"string"`
 
 	// Lang which has to be used to parse the content of the string attribute.
 	// Used by clients and on the server side to properly process due dates when
@@ -64,11 +64,11 @@ type Due struct {
 	//
 	// Valid languages are:
 	//   en, da, pl, zh, ko, de, pt, ja, it, fr, sv, ru, es, nl, fi, nb, tw.
-	Lang string `json:"lang"`
+	Lang *string `json:"lang"`
 
 	// Boolean flag which is set to true if the due object represents a recurring
 	// due date.
-	IsRecurring bool `json:"is_recurring"`
+	IsRecurring *bool `json:"is_recurring"`
 }
 
 func (d *Due) UnmarshalJSON(data []byte) error {
@@ -87,7 +87,7 @@ func (d *Due) UnmarshalJSON(data []byte) error {
 	if err != nil {
 		return nil
 	}
-	d.Date = date
+	d.Date = &date
 
 	if aux.Timezone != nil {
 		tz, err := parseTimezone(*aux.Timezone)
@@ -103,22 +103,27 @@ func (d *Due) UnmarshalJSON(data []byte) error {
 func (d *Due) MarshalJSON() ([]byte, error) {
 	type alias Due
 	aux := struct {
-		Date     string  `json:"date"`
+		Date     *string `json:"date"`
 		Timezone *string `json:"timezone"`
 		*alias
 	}{alias: (*alias)(d)}
 
-	if d.Timezone == nil {
-		if d.Date.Hour() == 0 && d.Date.Minute() == 0 && d.Date.Second() == 0 {
-			aux.Date = d.Date.Format(time.DateOnly)
+	if d.Date != nil {
+		var data string
+		if d.Timezone == nil {
+			if d.Date.Hour() == 0 && d.Date.Minute() == 0 && d.Date.Second() == 0 {
+				data = d.Date.Format(time.DateOnly)
+			} else {
+				data = d.Date.Format(floatingDateTime)
+			}
+			aux.Date = &data
 		} else {
-			aux.Date = d.Date.Format(floatingDateTime)
-		}
-	} else {
-		aux.Date = d.Date.Format(time.RFC3339)
+			data = d.Date.Format(time.RFC3339)
+			aux.Date = &data
 
-		tz := d.Timezone.String()
-		aux.Timezone = &tz
+			tz := d.Timezone.String()
+			aux.Timezone = &tz
+		}
 	}
 
 	return json.Marshal(&aux)
