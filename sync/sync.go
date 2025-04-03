@@ -2,7 +2,7 @@ package sync
 
 import (
 	"encoding/json"
-	"errors"
+	"fmt"
 	"strings"
 
 	"github.com/google/uuid"
@@ -18,6 +18,26 @@ const (
 	defaultSyncToken = "*"
 	syncStatusOk     = "ok"
 )
+
+type SyncErr struct {
+	// Error code.
+	ErrorCode int `json:"error_code"`
+	// Error message.
+	ErrorMsg string `json:"error"`
+	// Error tag.
+	ErrorTag string `json:"error_tag"`
+	// HTTP status code.
+	HTTPCode int `json:"http_code"`
+	// Extra error information.
+	ErrorExtra map[string]any `json:"error_extra"`
+}
+
+func (e *SyncErr) Error() string {
+	if e == nil {
+		return ""
+	}
+	return strings.ToLower(e.ErrorMsg)
+}
 
 type SyncResponse struct {
 	// TODO:
@@ -83,7 +103,7 @@ type SyncResponse struct {
 func (r *SyncResponse) UnmarshalJSON(data []byte) error {
 	type alias SyncResponse
 	aux := &struct {
-		SyncStatus map[uuid.UUID]any `json:"sync_status"`
+		SyncStatus map[uuid.UUID]json.RawMessage `json:"sync_status"`
 		*alias
 	}{alias: (*alias)(r)}
 
@@ -93,24 +113,18 @@ func (r *SyncResponse) UnmarshalJSON(data []byte) error {
 
 	r.SyncStatus = make(map[uuid.UUID]error, len(aux.SyncStatus))
 	for k, v := range aux.SyncStatus {
-		switch v := v.(type) {
-		case string:
-			if v == syncStatusOk {
-				r.SyncStatus[k] = nil
-			} else {
-				r.SyncStatus[k] = errors.New(strings.ToLower(v))
-			}
-		case map[string]any:
-			if err, ok := v["error"]; ok {
-				if err, ok := err.(string); ok {
-					r.SyncStatus[k] = errors.New(strings.ToLower(err))
-				}
-			} else {
-				r.SyncStatus[k] = errors.New("unknown error")
-			}
-		default:
-			r.SyncStatus[k] = errors.New("unknown error")
+		var status string
+		if json.Unmarshal(v, &status) == nil && status == syncStatusOk {
+			r.SyncStatus[k] = nil
+			continue
 		}
+
+		syncErr := &SyncErr{}
+		if err := json.Unmarshal(v, syncErr); err != nil {
+			syncErr.ErrorMsg = fmt.Sprintf("unknown error: %s", string(v))
+		}
+
+		r.SyncStatus[k] = syncErr
 	}
 
 	return nil
