@@ -1,5 +1,7 @@
 package sync
 
+import "fmt"
+
 type Color string
 
 type rgb struct {
@@ -55,6 +57,13 @@ var colorMap = map[string]colorInfo{
 	"charcoal":    {"#808080", rgb{0x80, 0x80, 0x80}},
 	"grey":        {"#999999", rgb{0x99, 0x99, 0x99}},
 	"taupe":       {"#8F7A69", rgb{0x8F, 0x7A, 0x69}},
+}
+
+func ParseColor(s string) (Color, error) {
+	if _, ok := colorMap[s]; !ok {
+		return "", fmt.Errorf("invalid color %q", s)
+	}
+	return Color(s), nil
 }
 
 func (c Color) Hex() string {
