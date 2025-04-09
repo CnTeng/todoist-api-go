@@ -85,7 +85,7 @@ func (d *Due) UnmarshalJSON(data []byte) error {
 
 	date, err := parseDate(aux.Date)
 	if err != nil {
-		return nil
+		return err
 	}
 	d.Date = &date
 
