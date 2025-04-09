@@ -24,6 +24,14 @@ func (c *Client) DeleteProject(ctx context.Context, args *ProjectDeleteArgs) (*S
 	return c.executeCommand(ctx, args)
 }
 
+func (c *Client) DeleteProjects(ctx context.Context, args []*ProjectDeleteArgs) (*SyncResponse, error) {
+	cmds := make(Commands, 0, len(args))
+	for _, arg := range args {
+		cmds = append(cmds, NewCommand(arg))
+	}
+	return c.executeCommands(ctx, &cmds)
+}
+
 func (c *Client) ArchiveProject(ctx context.Context, args *ProjectArchiveArgs) (*SyncResponse, error) {
 	return c.executeCommand(ctx, args)
 }

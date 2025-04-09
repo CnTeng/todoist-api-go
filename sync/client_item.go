@@ -27,6 +27,14 @@ func (c *Client) DeleteItem(ctx context.Context, args *ItemDeleteArgs) (*SyncRes
 	return c.executeCommand(ctx, args)
 }
 
+func (c *Client) DeleteItems(ctx context.Context, args []*ItemDeleteArgs) (*SyncResponse, error) {
+	cmds := make(Commands, 0, len(args))
+	for _, arg := range args {
+		cmds = append(cmds, NewCommand(arg))
+	}
+	return c.executeCommands(ctx, &cmds)
+}
+
 func (c *Client) CompleteItem(ctx context.Context, args *ItemCompleteArgs) (*SyncResponse, error) {
 	return c.executeCommand(ctx, args)
 }
