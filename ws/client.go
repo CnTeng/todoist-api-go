@@ -18,18 +18,6 @@ const (
 	originURL = "https://app.todoist.com"
 )
 
-type notification struct {
-	Type Notification `json:"type"`
-}
-
-type Notification string
-
-const (
-	ping            Notification = "ping"
-	SyncNeeded      Notification = "sync_needed"
-	CalenderUpdated Notification = "calendar_updated"
-)
-
 const (
 	pingInterval = 60 * time.Second
 	maxBackoff   = 128 * time.Second
@@ -122,18 +110,18 @@ func (c *Client) listen(ctx context.Context) {
 			log.Println("connect timeout")
 			return
 		default:
-			noti := &notification{}
-			if err := wsjson.Read(ctx, c.conn, noti); err != nil {
+			msg := &message{}
+			if err := wsjson.Read(ctx, c.conn, msg); err != nil {
 				continue
 			}
 
-			if noti.Type == ping {
-				log.Println(noti.Type)
+			if msg.Type == ping {
+				log.Println(msg.Type)
 				timeout.Reset(pingInterval)
 				continue
 			}
 
-			if err := c.handler.HandleNotification(ctx, noti.Type); err != nil {
+			if err := c.handler.HandleMessage(ctx, msg.Type); err != nil {
 				return
 			}
 		}
