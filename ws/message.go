@@ -7,7 +7,10 @@ type message struct {
 }
 
 const (
-	ping            Message = "ping"
+	Connected    Message = "connected"
+	Disconnected Message = "disconnected"
+
+	Ping            Message = "ping"
 	SyncNeeded      Message = "sync_needed"
 	CalenderUpdated Message = "calendar_updated"
 )

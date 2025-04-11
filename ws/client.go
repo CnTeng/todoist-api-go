@@ -29,7 +29,7 @@ type Client struct {
 	mu      *sync.Mutex
 	conn    *websocket.Conn
 	done    chan struct{}
-	ch      chan struct{}
+	msgCh   chan Message
 }
 
 func NewClient(token string, handler Handler) *Client {
@@ -38,7 +38,7 @@ func NewClient(token string, handler Handler) *Client {
 		handler: handler,
 		mu:      &sync.Mutex{},
 		done:    make(chan struct{}),
-		ch:      make(chan struct{}, 1),
+		msgCh:   make(chan Message),
 	}
 }
 
@@ -48,7 +48,7 @@ func (c *Client) Listen(ctx context.Context) error {
 	}
 
 	go c.listen(ctx)
-	go c.reconnect(ctx)
+	go c.handleMessage(ctx)
 
 	return nil
 }
@@ -93,12 +93,7 @@ func (c *Client) listen(ctx context.Context) {
 	timeout := time.NewTimer(pingInterval)
 	defer timeout.Stop()
 
-	defer func() {
-		select {
-		case c.ch <- struct{}{}:
-		default:
-		}
-	}()
+	defer func() { c.msgCh <- Disconnected }()
 
 	for {
 		select {
@@ -115,20 +110,17 @@ func (c *Client) listen(ctx context.Context) {
 				continue
 			}
 
-			if msg.Type == ping {
+			if msg.Type == Ping {
 				log.Println(msg.Type)
 				timeout.Reset(pingInterval)
-				continue
 			}
 
-			if err := c.handler.HandleMessage(ctx, msg.Type); err != nil {
-				return
-			}
+			c.msgCh <- msg.Type
 		}
 	}
 }
 
-func (c *Client) reconnect(ctx context.Context) {
+func (c *Client) handleMessage(ctx context.Context) {
 	backoff := 1 * time.Second
 
 	for {
@@ -137,29 +129,34 @@ func (c *Client) reconnect(ctx context.Context) {
 			return
 		case <-c.done:
 			return
-		case <-c.ch:
-			if err := c.dial(ctx); err != nil {
-				log.Println("failed to connect")
-				jitter := time.Duration(rand.Int63n(int64(backoff)))
-				backoff = min(backoff*2+jitter, maxBackoff)
+		case msg := <-c.msgCh:
+			switch msg {
+			case Disconnected:
+				if err := c.dial(ctx); err != nil {
+					log.Println("failed to connect")
+					jitter := time.Duration(rand.Int63n(int64(backoff)))
+					backoff = min(backoff*2+jitter, maxBackoff)
 
-				select {
-				case <-ctx.Done():
-					return
-				case <-c.done:
-					return
-				case <-time.After(backoff):
 					select {
-					case c.ch <- struct{}{}:
-					default:
+					case <-ctx.Done():
+						return
+					case <-c.done:
+						return
+					case <-time.After(backoff):
+						c.msgCh <- Disconnected
 					}
+
+					continue
 				}
 
-				continue
+				backoff = 1 * time.Second
+				go c.listen(ctx)
+				c.msgCh <- Connected
+			default:
+				if err := c.handler.HandleMessage(ctx, msg); err != nil {
+					log.Println("failed to handle message:", err)
+				}
 			}
-
-			backoff = 1 * time.Second
-			go c.listen(ctx)
 		}
 	}
 }
