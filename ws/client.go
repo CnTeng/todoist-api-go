@@ -43,15 +43,9 @@ func NewClient(token string, handler Handler) *Client {
 	}
 }
 
-func (c *Client) Listen(ctx context.Context) error {
-	if err := c.dial(ctx); err != nil {
-		return err
-	}
-
-	go c.listen(ctx)
+func (c *Client) Listen(ctx context.Context) {
 	go c.handleMessage(ctx)
-
-	return nil
+	c.msgCh <- Disconnected
 }
 
 func (c *Client) Close() error {
@@ -145,7 +139,7 @@ func (c *Client) handleMessage(ctx context.Context) {
 					case <-c.done:
 						return
 					case <-time.After(d):
-						c.msgCh <- Disconnected
+						go func() { c.msgCh <- Disconnected }()
 					}
 
 					continue
