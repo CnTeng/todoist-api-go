@@ -50,7 +50,6 @@ func (c *Client) Listen(ctx context.Context) {
 
 func (c *Client) Close() error {
 	close(c.done)
-	close(c.msgCh)
 
 	c.mu.Lock()
 	defer c.mu.Unlock()
@@ -81,7 +80,6 @@ func (c *Client) dial(ctx context.Context) error {
 		return err
 	}
 	c.conn = conn
-	c.msgCh <- Connected
 
 	return nil
 }
@@ -90,7 +88,16 @@ func (c *Client) listen(ctx context.Context) {
 	timeout := time.NewTimer(pingInterval)
 	defer timeout.Stop()
 
-	defer func() { c.msgCh <- Disconnected }()
+	defer func() {
+		c.mu.Lock()
+		defer c.mu.Unlock()
+
+		if c.conn != nil {
+			c.conn.CloseRead(ctx)
+		}
+	}()
+
+	c.msgCh <- Connected
 
 	for {
 		select {
@@ -99,7 +106,7 @@ func (c *Client) listen(ctx context.Context) {
 		case <-c.done:
 			return
 		case <-timeout.C:
-			log.Print("connect timeout")
+			c.msgCh <- Disconnected
 			return
 		default:
 			msg := &message{}
@@ -129,7 +136,13 @@ func (c *Client) handleMessage(ctx context.Context) {
 		case msg := <-c.msgCh:
 			switch msg {
 			case Disconnected:
-				if err := c.dial(ctx); err != nil {
+				for {
+					if err := c.dial(ctx); err == nil {
+						backoff.Reset()
+						go c.listen(ctx)
+						break
+					}
+
 					d := backoff.Duration()
 					log.Printf("failed to connect, next retry in %v", d)
 
@@ -139,14 +152,10 @@ func (c *Client) handleMessage(ctx context.Context) {
 					case <-c.done:
 						return
 					case <-time.After(d):
-						go func() { c.msgCh <- Disconnected }()
+						continue
 					}
-
-					continue
 				}
-
-				backoff.Reset()
-				go c.listen(ctx)
+				fallthrough
 			default:
 				if err := c.handler.HandleMessage(ctx, msg); err != nil {
 					log.Print("failed to handle message:", err)
