@@ -29,8 +29,10 @@ type Client struct {
 	mu   *sync.Mutex
 	conn *websocket.Conn
 
-	done  chan struct{}
-	msgCh chan Message
+	wg     *sync.WaitGroup
+	once   sync.Once
+	cancel context.CancelFunc
+	msgCh  chan Message
 }
 
 func NewClient(token string, handler Handler) *Client {
@@ -38,36 +40,42 @@ func NewClient(token string, handler Handler) *Client {
 		token:   token,
 		handler: handler,
 		mu:      &sync.Mutex{},
-		done:    make(chan struct{}),
+		wg:      &sync.WaitGroup{},
+		once:    sync.Once{},
 		msgCh:   make(chan Message),
 	}
 }
 
 func (c *Client) Listen(ctx context.Context) {
-	go c.handleMessage(ctx)
-	c.msgCh <- Disconnected
+	c.once.Do(func() {
+		ctx, c.cancel = context.WithCancel(ctx)
+
+		c.wg.Add(1)
+		go c.handleMessage(ctx)
+
+		select {
+		case c.msgCh <- Disconnected:
+		case <-ctx.Done():
+			return
+		}
+	})
 }
 
 func (c *Client) Close() error {
-	close(c.done)
-
-	c.mu.Lock()
-	defer c.mu.Unlock()
-
-	if c.conn != nil {
-		c.conn.Close(websocket.StatusNormalClosure, "")
+	if c.cancel != nil {
+		c.cancel()
 	}
+
+	c.wg.Wait()
+	c.closeConn()
 
 	return nil
 }
 
-func (c *Client) dial(ctx context.Context) error {
-	c.mu.Lock()
-	defer c.mu.Unlock()
-
+func (c *Client) dial(ctx context.Context) (*websocket.Conn, error) {
 	u, err := url.Parse(baseURL)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	u.RawQuery = "token=" + c.token
 
@@ -77,25 +85,26 @@ func (c *Client) dial(ctx context.Context) error {
 
 	conn, _, err := websocket.Dial(ctx, u.String(), opts)
 	if err != nil {
-		return err
+		return nil, err
 	}
-	c.conn = conn
 
-	return nil
+	return conn, nil
 }
 
 func (c *Client) listen(ctx context.Context) {
-	timeout := time.NewTimer(pingInterval)
-	defer timeout.Stop()
-
 	defer func() {
-		c.mu.Lock()
-		defer c.mu.Unlock()
+		c.wg.Done()
+		c.closeConn()
 
-		if c.conn != nil {
-			c.conn.CloseRead(ctx)
+		select {
+		case c.msgCh <- Disconnected:
+		case <-ctx.Done():
+			return
 		}
 	}()
+
+	timeout := time.NewTimer(pingInterval)
+	defer timeout.Stop()
 
 	c.msgCh <- Connected
 
@@ -103,14 +112,19 @@ func (c *Client) listen(ctx context.Context) {
 		select {
 		case <-ctx.Done():
 			return
-		case <-c.done:
-			return
 		case <-timeout.C:
-			c.msgCh <- Disconnected
 			return
 		default:
+			c.mu.Lock()
+			conn := c.conn
+			c.mu.Unlock()
+
+			if conn == nil {
+				return
+			}
+
 			msg := &message{}
-			if err := wsjson.Read(ctx, c.conn, msg); err != nil {
+			if err := wsjson.Read(ctx, conn, msg); err != nil {
 				continue
 			}
 
@@ -119,26 +133,34 @@ func (c *Client) listen(ctx context.Context) {
 				timeout.Reset(pingInterval)
 			}
 
-			c.msgCh <- msg.Type
+			select {
+			case c.msgCh <- msg.Type:
+			case <-ctx.Done():
+				return
+			}
 		}
 	}
 }
 
 func (c *Client) handleMessage(ctx context.Context) {
+	defer c.wg.Done()
 	backoff := newBackoff(1*time.Second, maxBackoff)
 
 	for {
 		select {
 		case <-ctx.Done():
 			return
-		case <-c.done:
-			return
 		case msg := <-c.msgCh:
 			switch msg {
 			case Disconnected:
 				for {
-					if err := c.dial(ctx); err == nil {
+					if conn, err := c.dial(ctx); err == nil {
+						c.mu.Lock()
+						c.conn = conn
+						c.mu.Unlock()
+
 						backoff.Reset()
+						c.wg.Add(1)
 						go c.listen(ctx)
 						break
 					}
@@ -148,8 +170,6 @@ func (c *Client) handleMessage(ctx context.Context) {
 
 					select {
 					case <-ctx.Done():
-						return
-					case <-c.done:
 						return
 					case <-time.After(d):
 						continue
@@ -162,5 +182,15 @@ func (c *Client) handleMessage(ctx context.Context) {
 				}
 			}
 		}
+	}
+}
+
+func (c *Client) closeConn() {
+	c.mu.Lock()
+	defer c.mu.Unlock()
+
+	if c.conn != nil {
+		c.conn.Close(websocket.StatusNormalClosure, "")
+		c.conn = nil
 	}
 }
