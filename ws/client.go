@@ -87,6 +87,7 @@ func (c *Client) dial(ctx context.Context) error {
 		return err
 	}
 	c.conn = conn
+	c.msgCh <- Connected
 
 	return nil
 }
@@ -152,7 +153,6 @@ func (c *Client) handleMessage(ctx context.Context) {
 
 				backoff.Reset()
 				go c.listen(ctx)
-				c.msgCh <- Connected
 			default:
 				if err := c.handler.HandleMessage(ctx, msg); err != nil {
 					log.Print("failed to handle message:", err)
