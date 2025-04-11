@@ -3,7 +3,6 @@ package ws
 import (
 	"context"
 	"log"
-	"math/rand"
 	"net/http"
 	"net/url"
 	"sync"
@@ -26,10 +25,12 @@ const (
 type Client struct {
 	token   string
 	handler Handler
-	mu      *sync.Mutex
-	conn    *websocket.Conn
-	done    chan struct{}
-	msgCh   chan Message
+
+	mu   *sync.Mutex
+	conn *websocket.Conn
+
+	done  chan struct{}
+	msgCh chan Message
 }
 
 func NewClient(token string, handler Handler) *Client {
@@ -55,6 +56,7 @@ func (c *Client) Listen(ctx context.Context) error {
 
 func (c *Client) Close() error {
 	close(c.done)
+	close(c.msgCh)
 
 	c.mu.Lock()
 	defer c.mu.Unlock()
@@ -102,7 +104,7 @@ func (c *Client) listen(ctx context.Context) {
 		case <-c.done:
 			return
 		case <-timeout.C:
-			log.Println("connect timeout")
+			log.Print("connect timeout")
 			return
 		default:
 			msg := &message{}
@@ -111,7 +113,7 @@ func (c *Client) listen(ctx context.Context) {
 			}
 
 			if msg.Type == Ping {
-				log.Println(msg.Type)
+				log.Print(msg.Type)
 				timeout.Reset(pingInterval)
 			}
 
@@ -121,7 +123,7 @@ func (c *Client) listen(ctx context.Context) {
 }
 
 func (c *Client) handleMessage(ctx context.Context) {
-	backoff := 1 * time.Second
+	backoff := newBackoff(1*time.Second, maxBackoff)
 
 	for {
 		select {
@@ -133,28 +135,27 @@ func (c *Client) handleMessage(ctx context.Context) {
 			switch msg {
 			case Disconnected:
 				if err := c.dial(ctx); err != nil {
-					log.Println("failed to connect")
-					jitter := time.Duration(rand.Int63n(int64(backoff)))
-					backoff = min(backoff*2+jitter, maxBackoff)
+					d := backoff.Duration()
+					log.Printf("failed to connect, next retry in %v", d)
 
 					select {
 					case <-ctx.Done():
 						return
 					case <-c.done:
 						return
-					case <-time.After(backoff):
+					case <-time.After(d):
 						c.msgCh <- Disconnected
 					}
 
 					continue
 				}
 
-				backoff = 1 * time.Second
+				backoff.Reset()
 				go c.listen(ctx)
 				c.msgCh <- Connected
 			default:
 				if err := c.handler.HandleMessage(ctx, msg); err != nil {
-					log.Println("failed to handle message:", err)
+					log.Print("failed to handle message:", err)
 				}
 			}
 		}
