@@ -1,10 +1,10 @@
 package sync
 
-// Update the orders of multiple filters at once.
+// Update multiple filter orders.
 //
 // See [Update multiple filter orders] for more details.
 //
-// [Update multiple filter orders]: https://developer.todoist.com/sync/v9/#update-multiple-filter-orders
+// [Update multiple filter orders]: https://todoist.com/api/v1/docs#tag/Sync/Filters/Update-multiple-filter-orders
 type FilterReorderArgs struct {
 	// Required.
 	// A dictionary, where a filter ID is the key, and the order its value.
