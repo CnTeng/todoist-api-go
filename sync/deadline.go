@@ -7,12 +7,17 @@ import (
 
 // Similar to due dates, deadlines can be set on tasks, and can be used to
 // differentiate between when a task should be started, and when it must be done
-// by. Unlike due dates, deadlines only support non-recurring dates with no time
+// by.
+//
+// Unlike due dates, deadlines only support non-recurring dates with no time
 // component.
+//
+// You can find our more information about [deadlines] in our Help Center.
 //
 // See [Deadlines] for more details.
 //
-// [Deadlines]: https://developer.todoist.com/sync/v9#deadlines
+// [deadlines]: https://www.todoist.com/help/articles/introduction-to-deadlines-uMqbSLM6U
+// [Deadlines]: https://todoist.com/api/v1/docs#tag/Deadlines
 type Deadline struct {
 	// Deadline in the format of YYYY-MM-DD (RFC 3339).
 	Date *time.Time `json:"date"`
