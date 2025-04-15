@@ -11,7 +11,6 @@ type ProjectArchiveArgs struct {
 	ID string `json:"id"`
 }
 
-// Return "project_archive" as command type.
-func (args *ProjectArchiveArgs) Type() string {
+func (args *ProjectArchiveArgs) command() string {
 	return "project_archive"
 }

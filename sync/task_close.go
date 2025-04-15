@@ -15,7 +15,6 @@ type TaskCloseArgs struct {
 	ID string `json:"id"`
 }
 
-// Return "item_close" as command type.
-func (args *TaskCloseArgs) Type() string {
+func (args *TaskCloseArgs) command() string {
 	return "item_close"
 }

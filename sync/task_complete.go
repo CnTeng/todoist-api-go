@@ -17,8 +17,7 @@ type TaskCompleteArgs struct {
 	DateCompleted *string `json:"date_completed,omitempty"`
 }
 
-// Return "item_complete" as command type.
-func (args *TaskCompleteArgs) Type() string {
+func (args *TaskCompleteArgs) command() string {
 	return "item_complete"
 }
 
@@ -48,7 +47,6 @@ type TaskCompleteRecurringArgs struct {
 	ResetSubtasks *bool `json:"reset_subtasks,omitempty"`
 }
 
-// Return "item_update_date_complete" as command type.
-func (args *TaskCompleteRecurringArgs) Type() string {
+func (args *TaskCompleteRecurringArgs) command() string {
 	return "item_update_date_complete"
 }

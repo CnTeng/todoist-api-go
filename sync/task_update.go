@@ -76,7 +76,6 @@ type TaskUpdateArgs struct {
 	Duration *Duration `json:"duration,omitempty"`
 }
 
-// Return "task_update" as command type.
-func (args *TaskUpdateArgs) Type() string {
+func (args *TaskUpdateArgs) command() string {
 	return "item_update"
 }

@@ -11,7 +11,6 @@ type ReminderDeleteArgs struct {
 	ID string `json:"id"`
 }
 
-// Return "reminder_delete" as command type.
-func (args *ReminderDeleteArgs) Type() string {
+func (args *ReminderDeleteArgs) command() string {
 	return "reminder_delete"
 }

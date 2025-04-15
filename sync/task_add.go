@@ -102,7 +102,6 @@ type TaskAddArgs struct {
 	Duration *Duration `json:"duration,omitempty"`
 }
 
-// Return "item_add" as command type.
-func (args *TaskAddArgs) Type() string {
+func (args *TaskAddArgs) command() string {
 	return "item_add"
 }

@@ -31,7 +31,6 @@ type FilterAddArgs struct {
 	IsFavorite *bool `json:"is_favorite,omitempty"`
 }
 
-// Return "filter_add" as command type.
-func (args *FilterAddArgs) Type() string {
+func (args *FilterAddArgs) command() string {
 	return "filter_add"
 }

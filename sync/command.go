@@ -8,7 +8,7 @@ import (
 )
 
 type CommandArgs interface {
-	Type() string
+	command() string
 }
 
 type Command struct {
@@ -20,7 +20,7 @@ type Command struct {
 
 func NewCommand(args CommandArgs) *Command {
 	return &Command{
-		Type:   args.Type(),
+		Type:   args.command(),
 		Args:   args,
 		UUID:   uuid.New(),
 		TempID: uuid.New(),

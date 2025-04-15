@@ -15,7 +15,6 @@ type SectionMoveArgs struct {
 	ProjectID *string `json:"project_id,omitempty"`
 }
 
-// Return "section_move" as command type.
-func (args *SectionMoveArgs) Type() string {
+func (args *SectionMoveArgs) command() string {
 	return "section_move"
 }

@@ -11,7 +11,6 @@ type SectionUnarchiveArgs struct {
 	ID string `json:"id"`
 }
 
-// Return "section_unarchive" as command type.
-func (args *SectionUnarchiveArgs) Type() string {
+func (args *SectionUnarchiveArgs) command() string {
 	return "section_unarchive"
 }

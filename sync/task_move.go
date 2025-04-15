@@ -27,7 +27,6 @@ type TaskMoveArgs struct {
 	ProjectID *string `json:"project_id,omitempty"`
 }
 
-// Return "item_move" as command type.
-func (args *TaskMoveArgs) Type() string {
+func (args *TaskMoveArgs) command() string {
 	return "item_move"
 }

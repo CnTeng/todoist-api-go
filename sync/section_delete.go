@@ -11,7 +11,6 @@ type SectionDeleteArgs struct {
 	ID string `json:"id"`
 }
 
-// Return "section_delete" as command type.
-func (args *SectionDeleteArgs) Type() string {
+func (args *SectionDeleteArgs) command() string {
 	return "section_delete"
 }

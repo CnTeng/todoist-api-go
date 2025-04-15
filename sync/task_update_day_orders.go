@@ -11,7 +11,6 @@ type TaskUpdateDayOrdersArgs struct {
 	IdsToOrders map[string]int `json:"ids_to_orders"`
 }
 
-// Return "item_update_day_orders" as command type.
-func (args *TaskUpdateDayOrdersArgs) Type() string {
+func (args *TaskUpdateDayOrdersArgs) command() string {
 	return "item_update_day_orders"
 }

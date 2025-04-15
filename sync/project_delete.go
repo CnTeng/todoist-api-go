@@ -12,7 +12,6 @@ type ProjectDeleteArgs struct {
 	ID string `json:"id"`
 }
 
-// Return "project_delete" as command type.
-func (args *ProjectDeleteArgs) Type() string {
+func (args *ProjectDeleteArgs) command() string {
 	return "project_delete"
 }

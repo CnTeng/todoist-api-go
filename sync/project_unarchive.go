@@ -14,7 +14,6 @@ type ProjectUnarchiveArgs struct {
 	ID string `json:"id"`
 }
 
-// Return "project_unarchive" as command type.
-func (args *ProjectUnarchiveArgs) Type() string {
+func (args *ProjectUnarchiveArgs) command() string {
 	return "project_unarchive"
 }

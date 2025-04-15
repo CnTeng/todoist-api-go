@@ -15,7 +15,6 @@ type LabelRenameArgs struct {
 	NameNew string `json:"name_new"`
 }
 
-// Return "label_rename" as command type.
-func (args *LabelRenameArgs) Type() string {
+func (args *LabelRenameArgs) command() string {
 	return "label_rename"
 }

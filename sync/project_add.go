@@ -71,7 +71,6 @@ type ProjectAddArgs struct {
 	CollaboratorRoleDefault *string `json:"collaborator_role_default,omitempty"`
 }
 
-// Return "project_add" as command type.
-func (args *ProjectAddArgs) Type() string {
+func (args *ProjectAddArgs) command() string {
 	return "project_add"
 }

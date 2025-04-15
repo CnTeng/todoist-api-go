@@ -1,6 +1,6 @@
 package sync
 
-// Update an existing project.
+// Update a project.
 //
 // See [Update a project] for more details.
 //
@@ -55,7 +55,6 @@ type ProjectUpdateArgs struct {
 	CollaboratorRoleDefault *string `json:"collaborator_role_default,omitempty"`
 }
 
-// Return "project_update" as command type.
-func (args *ProjectUpdateArgs) Type() string {
+func (args *ProjectUpdateArgs) command() string {
 	return "project_update"
 }

@@ -17,7 +17,6 @@ type TaskReorderArgs struct {
 	}
 }
 
-// Return "item_reorder" as command type.
-func (args *TaskReorderArgs) Type() string {
+func (args *TaskReorderArgs) command() string {
 	return "item_reorder"
 }

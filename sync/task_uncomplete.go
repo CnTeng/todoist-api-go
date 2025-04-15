@@ -17,7 +17,6 @@ type TaskUncompleteArgs struct {
 	ID string `json:"id"`
 }
 
-// Return "item_uncomplete" as command type.
-func (args *TaskUncompleteArgs) Type() string {
+func (args *TaskUncompleteArgs) command() string {
 	return "item_uncomplete"
 }

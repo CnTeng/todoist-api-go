@@ -16,8 +16,7 @@ type ProjectMoveArgs struct {
 	ParentID *string `json:"parent_id,omitempty"`
 }
 
-// Return "project_move" as command type.
-func (args *ProjectMoveArgs) Type() string {
+func (args *ProjectMoveArgs) command() string {
 	return "project_move"
 }
 
@@ -52,8 +51,7 @@ type ProjectMoveToWorkspaceArgs struct {
 	FolderID *string `json:"folder_id,omitempty"`
 }
 
-// Return "project_move_to_workspace" as command type.
-func (args *ProjectMoveToWorkspaceArgs) Type() string {
+func (args *ProjectMoveToWorkspaceArgs) command() string {
 	return "project_move_to_workspace"
 }
 
@@ -71,7 +69,6 @@ type ProjectMoveToPersonalArgs struct {
 	ProjectID string `json:"project_id"`
 }
 
-// Return "project_move_to_personal" as command type.
-func (args *ProjectMoveToPersonalArgs) Type() string {
+func (args *ProjectMoveToPersonalArgs) command() string {
 	return "project_move_to_personal"
 }

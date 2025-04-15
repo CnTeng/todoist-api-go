@@ -19,8 +19,7 @@ type LabelDeleteArgs struct {
 	Cascade *string `json:"cascade,omitempty"`
 }
 
-// Return "label_delete" as command type.
-func (args *LabelDeleteArgs) Type() string {
+func (args *LabelDeleteArgs) command() string {
 	return "label_delete"
 }
 
@@ -35,7 +34,6 @@ type LabelDeleteOccurrencesArgs struct {
 	Name string `json:"name"`
 }
 
-// Return "label_delete_occurrences" as command type.
-func (args *LabelDeleteOccurrencesArgs) Type() string {
+func (args *LabelDeleteOccurrencesArgs) command() string {
 	return "label_delete_occurrences"
 }

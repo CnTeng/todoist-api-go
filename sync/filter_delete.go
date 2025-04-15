@@ -11,7 +11,6 @@ type FilterDeleteArgs struct {
 	ID string `json:"id"`
 }
 
-// Return "filter_delete" as command type.
-func (args *FilterDeleteArgs) Type() string {
+func (args *FilterDeleteArgs) command() string {
 	return "filter_delete"
 }

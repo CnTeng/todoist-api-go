@@ -61,7 +61,6 @@ type ReminderUpdateArgs struct {
 	Radius *int `json:"radius,omitempty"`
 }
 
-// Return "reminder_update" as command type.
-func (args *ReminderUpdateArgs) Type() string {
+func (args *ReminderUpdateArgs) command() string {
 	return "reminder_update"
 }

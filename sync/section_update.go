@@ -19,7 +19,6 @@ type SectionUpdateArgs struct {
 	IsCollapsed *bool `json:"is_collapsed,omitempty"`
 }
 
-// Return "section_update" as command type.
-func (args *SectionUpdateArgs) Type() string {
+func (args *SectionUpdateArgs) command() string {
 	return "section_update"
 }

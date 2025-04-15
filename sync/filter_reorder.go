@@ -11,7 +11,6 @@ type FilterReorderArgs struct {
 	IDOrderMapping map[string]int `json:"id_order_mapping"`
 }
 
-// Return "filter_update_orders" as command type.
-func (args *FilterReorderArgs) Type() string {
+func (args *FilterReorderArgs) command() string {
 	return "filter_update_orders"
 }

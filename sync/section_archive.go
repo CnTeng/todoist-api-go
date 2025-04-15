@@ -11,7 +11,6 @@ type SectionArchiveArgs struct {
 	ID string `json:"id"`
 }
 
-// Return "section_archive" as command type.
-func (args *SectionArchiveArgs) Type() string {
+func (args *SectionArchiveArgs) command() string {
 	return "section_archive"
 }

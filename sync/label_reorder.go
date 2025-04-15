@@ -11,7 +11,6 @@ type LabelReorderArgs struct {
 	IDOrderMapping map[string]int `json:"id_order_mapping"`
 }
 
-// Return "label_update_orders" as command type.
-func (args *LabelReorderArgs) Type() string {
+func (args *LabelReorderArgs) command() string {
 	return "label_update_orders"
 }

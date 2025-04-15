@@ -17,7 +17,6 @@ type SectionReorderArgs struct {
 	}
 }
 
-// Return "section_reorder" as command type.
-func (args *SectionReorderArgs) Type() string {
+func (args *SectionReorderArgs) command() string {
 	return "section_reorder"
 }

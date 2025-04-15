@@ -11,7 +11,6 @@ type TaskDeleteArgs struct {
 	ID string `json:"id"`
 }
 
-// Return "item_delete" as command type.
-func (args *TaskDeleteArgs) Type() string {
+func (args *TaskDeleteArgs) command() string {
 	return "item_delete"
 }

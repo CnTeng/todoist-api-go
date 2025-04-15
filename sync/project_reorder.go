@@ -17,7 +17,6 @@ type ProjectReorderArgs struct {
 	}
 }
 
-// Return "project_reorder" as command type.
-func (args *ProjectReorderArgs) Type() string {
+func (args *ProjectReorderArgs) command() string {
 	return "project_reorder"
 }

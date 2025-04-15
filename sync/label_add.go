@@ -25,7 +25,6 @@ type LabelAddArgs struct {
 	IsFavorite *bool `json:"is_favorite,omitempty"`
 }
 
-// Return "label_add" as command type.
-func (args *LabelAddArgs) Type() string {
+func (args *LabelAddArgs) command() string {
 	return "label_add"
 }

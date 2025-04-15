@@ -20,7 +20,6 @@ type SectionAddArgs struct {
 	SectionOrder *int `json:"section_order,omitempty"`
 }
 
-// Return "section_add" as command type.
-func (args *SectionAddArgs) Type() string {
+func (args *SectionAddArgs) command() string {
 	return "section_add"
 }

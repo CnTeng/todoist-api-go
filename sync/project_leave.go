@@ -14,7 +14,6 @@ type ProjectLeaveArgs struct {
 	ProjectID string `json:"project_id"`
 }
 
-// Return "project_leave" as command type.
-func (args *ProjectLeaveArgs) Type() string {
+func (args *ProjectLeaveArgs) command() string {
 	return "project_leave"
 }
