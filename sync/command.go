@@ -1,20 +1,23 @@
 package sync
 
-import (
-	"encoding/json"
-	"net/url"
-
-	"github.com/google/uuid"
-)
+import "github.com/google/uuid"
 
 type CommandArgs interface {
 	command() string
 }
 
 type Command struct {
-	Type   string    `json:"type"`
-	Args   any       `json:"args"`
-	UUID   uuid.UUID `json:"uuid"`
+	// The type of the command.
+	Type string `json:"type"`
+
+	// The parameters of the command.
+	Args any `json:"args"`
+
+	// Command UUID. More details about this below.
+	UUID uuid.UUID `json:"uuid"`
+
+	// Temporary resource ID, Optional. Only specified for commands that create a
+	// new resource (e.g. item_add command).
 	TempID uuid.UUID `json:"temp_id"`
 }
 
@@ -41,14 +44,4 @@ func NewCommands[T CommandArgs](args []T) Commands {
 		cmds = append(cmds, NewCommand(arg))
 	}
 	return cmds
-}
-
-func (cs *Commands) EncodeValues(key string, v *url.Values) error {
-	b, err := json.Marshal(cs)
-	if err != nil {
-		return err
-	}
-
-	v.Add(key, string(b))
-	return nil
 }

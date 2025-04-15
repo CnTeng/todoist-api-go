@@ -6,6 +6,6 @@ import (
 	"github.com/CnTeng/todoist-api-go/sync"
 )
 
-func (sc *Client) ClearLocations(ctx context.Context) (*sync.SyncResponse, error) {
-	return sc.ExecuteCommand(ctx, &sync.LocationClearArgs{})
+func (c *Client) ClearLocations(ctx context.Context) (*sync.SyncResponse, error) {
+	return c.ExecuteCommand(ctx, &sync.LocationClearArgs{})
 }

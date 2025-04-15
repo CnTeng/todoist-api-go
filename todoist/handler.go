@@ -1,11 +1,15 @@
 package todoist
 
-import "github.com/CnTeng/todoist-api-go/sync"
+import (
+	"context"
+
+	"github.com/CnTeng/todoist-api-go/sync"
+)
 
 type Handler interface {
-	SyncToken() (*string, error)
-	ResourceTypes() (*sync.ResourceTypes, error)
-	HandleResponse(resp any) error
+	SyncToken(ctx context.Context) (*string, error)
+	ResourceTypes(ctx context.Context) (*sync.ResourceTypes, error)
+	HandleResponse(ctx context.Context, resp any) error
 }
 
 var DefaultHandler = &defaultHandler{syncToken: "*"}
@@ -14,15 +18,15 @@ type defaultHandler struct {
 	syncToken string
 }
 
-func (h *defaultHandler) SyncToken() (*string, error) {
+func (h *defaultHandler) SyncToken(ctx context.Context) (*string, error) {
 	return &h.syncToken, nil
 }
 
-func (h *defaultHandler) ResourceTypes() (*sync.ResourceTypes, error) {
+func (h *defaultHandler) ResourceTypes(ctx context.Context) (*sync.ResourceTypes, error) {
 	return &sync.ResourceTypes{sync.All}, nil
 }
 
-func (h *defaultHandler) HandleResponse(resp any) error {
+func (h *defaultHandler) HandleResponse(ctx context.Context, resp any) error {
 	switch r := resp.(type) {
 	case *sync.SyncResponse:
 		h.syncToken = r.SyncToken

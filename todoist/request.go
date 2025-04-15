@@ -5,49 +5,39 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"io"
 	"net/http"
 	"net/url"
+
+	"github.com/google/go-querystring/query"
 )
 
 type request[T any] struct {
 	endpoint string
 	token    string
-	params   url.Values
+	params   any
 	body     any
 
 	client *http.Client
 }
 
-func NewRequest[T any](client *http.Client, endpoint, token string) *request[T] {
+func newRequest[T any](client *http.Client, endpoint, token string) *request[T] {
 	return &request[T]{
 		client:   client,
 		endpoint: endpoint,
 		token:    token,
-		params:   url.Values{},
 	}
 }
 
-func (r *request[T]) WithParameters(p url.Values) *request[T] {
-	r.params = p
+func (r *request[T]) withParams(params any) *request[T] {
+	r.params = params
 	return r
 }
 
-func (r *request[T]) WithBody(body any) *request[T] {
+func (r *request[T]) withBody(body any) *request[T] {
 	r.body = body
 	return r
-}
-
-func (r *request[T]) Get(ctx context.Context) (*T, error) {
-	return r.do(ctx, http.MethodGet)
-}
-
-func (r *request[T]) Post(ctx context.Context) (*T, error) {
-	return r.do(ctx, http.MethodPost)
-}
-
-func (r *request[T]) Delete(ctx context.Context) (*T, error) {
-	return r.do(ctx, http.MethodDelete)
 }
 
 func (r *request[T]) do(ctx context.Context, method string) (*T, error) {
@@ -55,7 +45,14 @@ func (r *request[T]) do(ctx context.Context, method string) (*T, error) {
 	if err != nil {
 		return nil, err
 	}
-	u.RawQuery = r.params.Encode()
+
+	if r.params != nil {
+		params, err := query.Values(r.params)
+		if err != nil {
+			return nil, err
+		}
+		u.RawQuery = params.Encode()
+	}
 
 	var body io.Reader
 	if r.body != nil {
@@ -63,6 +60,7 @@ func (r *request[T]) do(ctx context.Context, method string) (*T, error) {
 		if err != nil {
 			return nil, err
 		}
+		fmt.Println("Request URL:", string(b))
 		body = bytes.NewBuffer(b)
 	}
 
