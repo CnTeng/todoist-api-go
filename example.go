@@ -8,14 +8,15 @@ import (
 	"os"
 	"time"
 
-	"github.com/CnTeng/todoist-api-go/sync"
+	"github.com/CnTeng/todoist-api-go/rest"
+	"github.com/CnTeng/todoist-api-go/todoist"
 )
 
 func main() {
 	token := os.Getenv("API_TOKEN")
-	c := sync.NewClient(http.DefaultClient, token, sync.DefaultHandler)
+	c := todoist.NewClient(http.DefaultClient, token, todoist.DefaultHandler)
 
-	r, err := c.GetTasksCompleted(context.Background(), &sync.TaskGetCompletedByDueDateParams{
+	r, err := c.GetTasksCompletedByDueDate(context.Background(), &rest.TaskGetCompletedByDueDateParams{
 		Since: time.Now().AddDate(-1, 0, 0),
 		Until: time.Now(),
 	})

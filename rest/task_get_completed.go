@@ -1,6 +1,10 @@
-package sync
+package rest
 
-import "time"
+import (
+	"time"
+
+	"github.com/CnTeng/todoist-api-go/sync"
+)
 
 // Retrieves a list of completed tasks strictly limited by the specified
 // completion date range (up to 3 months).
@@ -99,6 +103,6 @@ type TaskGetCompletedByDueDateParams struct {
 }
 
 type TaskGetCompletedResponse struct {
-	Tasks      []*Task `json:"items"`
-	NextCursor *string `json:"next_cursor,omitempty"`
+	Tasks      []*sync.Task `json:"items"`
+	NextCursor *string      `json:"next_cursor,omitempty"`
 }
