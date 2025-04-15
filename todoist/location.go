@@ -7,6 +7,5 @@ import (
 )
 
 func (sc *Client) ClearLocations(ctx context.Context) (*sync.SyncResponse, error) {
-	args := &sync.LoactionClearArgs{}
-	return sc.ExecuteCommand(ctx, args)
+	return sc.ExecuteCommand(ctx, &sync.LocationClearArgs{})
 }

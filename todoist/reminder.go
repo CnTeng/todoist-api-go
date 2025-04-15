@@ -14,7 +14,11 @@ func (c *Client) UpdateReminder(ctx context.Context, args *sync.ReminderUpdateAr
 	return c.executeCommand(ctx, args)
 }
 
-func (c *Client) DeleteReminder(ctx context.Context, id string) (*sync.SyncResponse, error) {
-	args := &sync.ReminderDeleteArgs{ID: id}
+func (c *Client) DeleteReminder(ctx context.Context, args *sync.ReminderDeleteArgs) (*sync.SyncResponse, error) {
 	return c.executeCommand(ctx, args)
+}
+
+func (c *Client) DeleteReminders(ctx context.Context, args []*sync.ReminderDeleteArgs) (*sync.SyncResponse, error) {
+	cmds := sync.NewCommands(args)
+	return c.executeCommands(ctx, &cmds)
 }

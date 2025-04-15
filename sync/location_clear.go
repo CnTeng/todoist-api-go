@@ -4,10 +4,10 @@ package sync
 //
 // See [Clear locations] for more details.
 //
-// [Clear locations]: https://developer.todoist.com/sync/v9/#clear-locations
-type LoactionClearArgs struct{}
+// [Clear locations]: https://todoist.com/api/v1/docs#tag/Sync/Reminders/Locations
+type LocationClearArgs struct{}
 
 // Return "clear_locations" as command type.
-func (args *LoactionClearArgs) Type() string {
+func (args *LocationClearArgs) Type() string {
 	return "clear_locations"
 }

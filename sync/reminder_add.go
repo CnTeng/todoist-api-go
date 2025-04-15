@@ -1,10 +1,10 @@
 package sync
 
-// Add a new reminder to the user account.
+// Add a new reminder to the user account related to the API credentials.
 //
 // See [Add a reminder] for more details.
 //
-// [Add a reminder]: https://developer.todoist.com/sync/v9/#add-a-reminder
+// [Add a reminder]: https://todoist.com/api/v1/docs#tag/Sync/Reminders/Add-a-reminder
 type ReminderAddArgs struct {
 	// Required.
 	// The item ID for which the reminder is about.
@@ -24,15 +24,17 @@ type ReminderAddArgs struct {
 	NotifyUID *string `json:"notify_uid,omitempty"`
 
 	// Optional.
-	// The due date of the reminder. Reminders only support due dates with time,
-	// since full-day reminders don't make sense.
+	// The due date of the reminder. See the
+	// https://todoist.com/api/v1/docs#tag/Due-dates section for more details.
+	// Note that reminders only support due dates with time, since full-day
+	// reminders don't make sense.
 	Due *Due `json:"due,omitempty"`
 
 	// Optional.
 	// The relative time in minutes before the due date of the item, in which the
 	// reminder should be triggered. Note that the item should have a due date
 	// with time set in order to add a relative reminder.
-	MinuteOffset int `json:"minute_offset,omitempty"`
+	MinuteOffset *int `json:"minute_offset,omitempty"`
 
 	// Optional.
 	// An alias name for the location.

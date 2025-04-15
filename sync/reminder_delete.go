@@ -4,10 +4,10 @@ package sync
 //
 // See [Delete a reminder] for more details.
 //
-// [Delete a reminder]: https://developer.todoist.com/sync/v9/#delete-a-reminder
+// [Delete a reminder]: https://todoist.com/api/v1/docs#tag/Sync/Reminders/Delete-a-reminder
 type ReminderDeleteArgs struct {
 	// Required.
-	// The ID of the filter.
+	// The ID of the reminder.
 	ID string `json:"id"`
 }
 
