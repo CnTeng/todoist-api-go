@@ -1,21 +1,23 @@
 package sync
 
-// Add a new task to a project. See [Add an item] for more details.
+// Add a new task to a project.
 //
-// [Add an item]: https://developer.todoist.com/sync/v9#add-an-item
-type ItemAddArgs struct {
+// See [Add a task] for more details.
+//
+// [Add a task]: https://todoist.com/api/v1/docs#tag/Sync/Tasks/Add-a-task
+type TaskAddArgs struct {
 	// Required.
 	// The text of the task. This value may contain markdown-formatted text and
-	// hyperlinks. See
-	// https://todoist.com/help/articles/format-text-in-a-todoist-task-e5dHw9 for
-	// more details.
+	// hyperlinks. Details on markdown support can be found in the
+	// https://www.todoist.com/help/articles/format-text-in-a-todoist-task-e5dHw9
+	// in the Help Center.
 	Content string `json:"content"`
 
 	// Optional.
 	// A description for the task. This value may contain markdown-formatted text
-	// and hyperlinks. See
-	// https://todoist.com/help/articles/format-text-in-a-todoist-task-e5dHw9 for
-	// more details.
+	// and hyperlinks. Details on markdown support can be found in the
+	// https://www.todoist.com/help/articles/format-text-in-a-todoist-task-e5dHw9
+	// in the Help Center.
 	Description *string `json:"description,omitempty"`
 
 	// Optional.
@@ -24,16 +26,18 @@ type ItemAddArgs struct {
 	ProjectID *string `json:"project_id,omitempty"`
 
 	// Optional.
-	// The due date of the task.
+	// The due date of the task. See the
+	// https://todoist.com/api/v1/docs#tag/Due-dates section for more details.
 	Due *Due `json:"due,omitempty"`
 
 	// Optional.
-	// The deadline of the task.
+	// The deadline of the task. See the
+	// https://todoist.com/api/v1/docs#tag/Deadlines section for more details.
 	Deadline *Deadline `json:"deadline,omitempty"`
 
 	// Optional.
-	// The priority of the task, ranging from 1 (natural) to 4 (very urgent). Very
-	// urgent is the priority 1 on clients. So, p1 will return 4 in the API.
+	// The priority of the task (a number between 1 and 4, 4 for very urgent and
+	// 1 for natural).
 	Priority *int `json:"priority,omitempty"`
 
 	// Optional.
@@ -51,16 +55,17 @@ type ItemAddArgs struct {
 	SectionID *string `json:"section_id,omitempty"`
 
 	// Optional.
-	// The order of the task inside the Today or Next 7 days view. The smallest
-	// value will place the task at the top.
+	// The order of the task inside the Today or Next 7 days view. (a number,
+	// where the smallest value would place the task at the top).
 	DayOrder *int `json:"day_order,omitempty"`
 
 	// Optional.
-	// Whether the task's sub-tasks are collapsed.
+	// Whether the task's sub-tasks are collapsed (a true or false value).
 	Collapsed *bool `json:"collapsed,omitempty"`
 
 	// Optional.
-	// The task's labels. Represent either personal or shared labels.
+	// The task's labels (a list of names that may represent either personal or
+	// shared labels).
 	Labels []string `json:"labels,omitempty"`
 
 	// Optional.
@@ -78,8 +83,8 @@ type ItemAddArgs struct {
 
 	// Optional.
 	// When this option is enabled, the default reminder will be added to the new
-	// item if it has a due date with time set. See
-	// https://developer.todoist.com/sync/v9#user for more details about the
+	// item if it has a due date with time set. See also the
+	// https://todoist.com/api/v1/docs#tag/Sync/User for more info about the
 	// default reminder.
 	AutoReminder *bool `json:"auto_reminder,omitempty"`
 
@@ -90,11 +95,14 @@ type ItemAddArgs struct {
 	AutoParseLabels *bool `json:"auto_parse_labels,omitempty"`
 
 	// Optional.
-	// The duration of the task.
+	// The task's duration. Includes a positive integer (greater than zero) for
+	// the amount of time the task will take, and the unit of time that the amount
+	// represents which must be either minute or day. Both the amount and unit
+	// must be defined.
 	Duration *Duration `json:"duration,omitempty"`
 }
 
 // Return "item_add" as command type.
-func (args *ItemAddArgs) Type() string {
+func (args *TaskAddArgs) Type() string {
 	return "item_add"
 }

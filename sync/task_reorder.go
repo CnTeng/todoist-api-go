@@ -1,10 +1,11 @@
 package sync
 
-// Update child_order properties of items in bulk. See [Reorder items] for more
-// details.
+// Update child_order properties of items in bulk.
 //
-// [Reorder items]: https://developer.todoist.com/sync/v9#reorder-items
-type ItemReorderArgs struct {
+// See [Reorder tasks] for more details.
+//
+// [Reorder tasks]: https://todoist.com/api/v1/docs#tag/Sync/Tasks/Reorder-tasks
+type TaskReorderArgs struct {
 	// Required.
 	// An array of objects to update.
 	Items []struct {
@@ -17,6 +18,6 @@ type ItemReorderArgs struct {
 }
 
 // Return "item_reorder" as command type.
-func (args *ItemReorderArgs) Type() string {
+func (args *TaskReorderArgs) Type() string {
 	return "item_reorder"
 }

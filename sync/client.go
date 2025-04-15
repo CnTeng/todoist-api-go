@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	baseURL      = "https://api.todoist.com/sync/v9"
+	baseURL      = "https://api.todoist.com/api/v1"
 	syncEndpoint = baseURL + "/sync"
 )
 
@@ -25,6 +25,39 @@ func NewClient(client *http.Client, token string, handler Handler) *Client {
 		token:   token,
 		handler: handler,
 	}
+}
+
+func get[T any](ctx context.Context, c *Client, endpoint string, params any) (*T, error) {
+	v, err := query.Values(params)
+	if err != nil {
+		return nil, err
+	}
+
+	r := utils.NewRequest[T](c.client, endpoint, c.token)
+	resp, err := r.WithParameters(v).Get(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	if err := c.handler.HandleResponse(resp); err != nil {
+		return nil, err
+	}
+
+	return resp, nil
+}
+
+func post[T any](ctx context.Context, c *Client, endpoint string, body any) (*T, error) {
+	r := utils.NewRequest[T](c.client, endpoint, c.token)
+	resp, err := r.WithBody(body).Post(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	if err := c.handler.HandleResponse(resp); err != nil {
+		return nil, err
+	}
+
+	return resp, nil
 }
 
 func do[T, U any](ctx context.Context, c *Client, endpoint string, params *T) (*U, error) {
@@ -78,7 +111,7 @@ func (c *Client) Sync(ctx context.Context, isForce bool) (*SyncResponse, error) 
 	var syncToken string
 
 	if isForce {
-		syncToken = defaultSyncToken
+		syncToken = DefaultSyncToken
 	} else {
 		st, err := c.handler.SyncToken()
 		if err != nil {

@@ -6,16 +6,16 @@ package sync
 //   - regular tasks are completed and moved to the archive
 //   - recurring tasks are scheduled to their next occurrence
 //
-// See [Close item] for more details.
+// See [Close task] for more details.
 //
-// [Close item]: https://developer.todoist.com/sync/v9#close-item
-type ItemCloseArgs struct {
+// [Close task]: https://todoist.com/api/v1/docs#tag/Sync/Tasks/Close-task
+type TaskCloseArgs struct {
 	// Required.
-	// The ID of the task.
+	// The ID of the item to close (a number or a temp id).
 	ID string `json:"id"`
 }
 
 // Return "item_close" as command type.
-func (args *ItemCloseArgs) Type() string {
+func (args *TaskCloseArgs) Type() string {
 	return "item_close"
 }

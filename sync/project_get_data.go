@@ -16,7 +16,7 @@ type ProjectGetDataParams struct {
 // sections and any uncompleted items.
 type ProjectGetDataResponse struct {
 	Project      *Project       `json:"project"`
-	Items        []*Item        `json:"items"`
+	Items        []*Task        `json:"items"`
 	Sections     []*Section     `json:"sections"`
 	ProjectNotes []*ProjectNote `json:"project_notes"`
 }

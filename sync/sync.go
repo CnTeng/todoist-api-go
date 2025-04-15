@@ -15,7 +15,7 @@ type SyncParams struct {
 }
 
 const (
-	defaultSyncToken = "*"
+	DefaultSyncToken = "*"
 	syncStatusOk     = "ok"
 )
 
@@ -56,7 +56,8 @@ type SyncResponse struct {
 
 	FullSync bool `json:"full_sync"`
 
-	Items []*Item `json:"items"`
+	// An array of task objects.
+	Tasks []*Task `json:"items"`
 
 	ItemNotes []*ItemNote `json:"notes"`
 
