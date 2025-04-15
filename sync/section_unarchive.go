@@ -4,14 +4,13 @@ package sync
 //
 // See [Unarchive a section] for more details.
 //
-// [Unarchive a section]: https://developer.todoist.com/sync/v9/#unarchive-a-section
+// [Unarchive a section]: https://todoist.com/api/v1/docs#tag/Sync/Sections/Unarchive-a-section
 type SectionUnarchiveArgs struct {
 	// Required.
-	// The ID of the section.
+	// Section ID to unarchive
 	ID string `json:"id"`
 }
 
-// Return "section_unarchive" as command type.
-func (args *SectionUnarchiveArgs) Type() string {
+func (args *SectionUnarchiveArgs) command() string {
 	return "section_unarchive"
 }

@@ -1,16 +1,17 @@
 package sync
 
-// Delete an existing project and all its descendants. See [Delete a project]
-// for more details.
+// Delete an existing project and all its descendants. Workspace projects can
+// only be deleted by ADMINs and it must be archived first.
 //
-// [Delete a project]: https://developer.todoist.com/sync/v9/#delete-a-project
+// See [Delete a project] for more details.
+//
+// [Delete a project]: https://todoist.com/api/v1/docs#tag/Sync/Projects/Delete-a-project
 type ProjectDeleteArgs struct {
 	// Required.
-	// ID of the project to delete.
+	// ID of the project to delete (could be a temp id).
 	ID string `json:"id"`
 }
 
-// Return "project_delete" as command type.
-func (args *ProjectDeleteArgs) Type() string {
+func (args *ProjectDeleteArgs) command() string {
 	return "project_delete"
 }

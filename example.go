@@ -5,33 +5,19 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"os"
 
-	"github.com/CnTeng/todoist-api-go/sync"
+	"github.com/CnTeng/todoist-api-go/todoist"
 )
 
 func main() {
-	var token string
-	fmt.Print("Enter your token: ")
-	if _, err := fmt.Scanln(&token); err != nil {
-		panic(err)
-	}
+	token := os.Getenv("API_TOKEN")
+	c := todoist.NewClient(http.DefaultClient, token, todoist.DefaultHandler)
 
-	c := sync.NewClient(http.DefaultClient, token, sync.DefaultHandler)
-
-	r, err := c.AddItem(context.Background(), &sync.ItemAddArgs{Content: "Test Item"})
+	r, err := c.SyncWithAutoToken(context.Background(), true)
 	if err != nil {
 		panic(err)
 	}
-
-	rj, _ := json.MarshalIndent(r, "", "  ")
-
-	fmt.Printf("%v\n", string(rj))
-
-	rr, err := c.Sync(context.Background(), true)
-	if err != nil {
-		panic(err)
-	}
-
-	rrj, _ := json.MarshalIndent(rr, "", "  ")
-	fmt.Printf("%v\n", string(rrj))
+	data, _ := json.MarshalIndent(r, "", "  ")
+	fmt.Println(string(data))
 }

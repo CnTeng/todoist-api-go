@@ -4,7 +4,7 @@ package sync
 //
 // See [Reorder sections] for more details.
 //
-// [Reorder sections]: https://developer.todoist.com/sync/v9/#reorder-sections
+// [Reorder sections]: https://todoist.com/api/v1/docs#tag/Sync/Sections/Reorder-sections
 type SectionReorderArgs struct {
 	// Required.
 	// An array of objects to update.
@@ -17,7 +17,6 @@ type SectionReorderArgs struct {
 	}
 }
 
-// Return "section_reorder" as command type.
-func (args *SectionReorderArgs) Type() string {
+func (args *SectionReorderArgs) command() string {
 	return "section_reorder"
 }

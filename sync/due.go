@@ -13,6 +13,7 @@ const floatingDateTime = "2006-01-02T15:04:05.000000"
 // Due dates for tasks and reminders is one of the core concepts of Todoist.
 // It's very powerful and quite complex, because it has to embrace different
 // use-cases of Todoist users.
+//
 // Todoist supports three types of due dates:
 //
 //  1. Full-day dates (like "1 January 2018" or "tomorrow")
@@ -40,9 +41,17 @@ const floatingDateTime = "2006-01-02T15:04:05.000000"
 // In addition, any of these due dates can be set to recurring or not, depending
 // on the date string, provided by the client.
 //
+// Our Help Center contains an in-depth article about the difference between
+// [floating due dates and dates with fixed zones].
+//
+// You can also find more information about [recurring due dates] in our Help
+// Center.
+//
 // See [Due dates] for more details.
 //
-// [Due dates]: https://developer.todoist.com/sync/v9#due-dates
+// [floating due dates and dates with fixed zones]: https://www.todoist.com/help/articles/set-a-fixed-time-or-floating-time-for-a-task-YUYVp27q
+// [recurring due dates]: https://www.todoist.com/help/articles/introduction-to-recurring-due-dates-YUYVJJAV
+// [Due dates]: https://todoist.com/api/v1/docs#tag/Due-dates
 type Due struct {
 	// Due date.
 	Date *time.Time `json:"date"`

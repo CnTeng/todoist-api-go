@@ -7,14 +7,13 @@ package sync
 //
 // See [Unarchive a project] for more details.
 //
-// [Unarchive a project]: https://developer.todoist.com/sync/v9/#unarchive-a-project
+// [Unarchive a project]: https://todoist.com/api/v1/docs#tag/Sync/Projects/Unarchive-a-project
 type ProjectUnarchiveArgs struct {
 	// Required.
-	// ID of the project to unarchive.
+	// ID of the project to unarchive (could be a temp id).
 	ID string `json:"id"`
 }
 
-// Return "project_unarchive" as command type.
-func (args *ProjectUnarchiveArgs) Type() string {
+func (args *ProjectUnarchiveArgs) command() string {
 	return "project_unarchive"
 }

@@ -4,7 +4,7 @@ package sync
 //
 // See [Delete a personal label] for more details.
 //
-// [Delete a personal label]: https://developer.todoist.com/sync/v9/#delete-a-personal-label
+// [Delete a personal label]: https://todoist.com/api/v1/docs#tag/Sync/Labels/Delete-a-personal-label
 type LabelDeleteArgs struct {
 	// Required.
 	// The ID of the label.
@@ -19,7 +19,21 @@ type LabelDeleteArgs struct {
 	Cascade *string `json:"cascade,omitempty"`
 }
 
-// Return "label_delete" as command type.
-func (args *LabelDeleteArgs) Type() string {
+func (args *LabelDeleteArgs) command() string {
 	return "label_delete"
+}
+
+// Deletes all occurrences of a shared label from any active tasks.
+//
+// See [Delete shared label occurrences] for more details.
+//
+// [Delete shared label occurrences]: https://todoist.com/api/v1/docs#tag/Sync/Labels/Delete-shared-label-occurrences
+type LabelDeleteOccurrencesArgs struct {
+	// Required.
+	// The name of the label to remove.
+	Name string `json:"name"`
+}
+
+func (args *LabelDeleteOccurrencesArgs) command() string {
+	return "label_delete_occurrences"
 }

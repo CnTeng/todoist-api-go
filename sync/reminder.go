@@ -1,10 +1,14 @@
 package sync
 
-// Reminder represents a reminder.
+// Availability of reminders functionality and the maximum number of stored
+// reminders are dependent on the current user plan. These values are indicated
+// by the reminders, max_reminders_time and max_reminders_location properties of
+// the [user plan limits] object.
 //
 // See [Reminders] for more details.
 //
-// [Reminders]: https://developer.todoist.com/sync/v9/#reminders
+// [user plan limits]: https://todoist.com/api/v1/docs#tag/Sync/User/User-plan-limits
+// [Reminders]: https://todoist.com/api/v1/docs#tag/Sync/Reminders
 type Reminder struct {
 	// The ID of the reminder.
 	ID string `json:"id"`
@@ -23,8 +27,10 @@ type Reminder struct {
 	//   - location: a location-based reminder.
 	ReminderType ReminderType `json:"type"`
 
-	// The due date of the reminder. Reminders only support due dates with time,
-	// since full-day reminders don't make sense.
+	// The due date of the reminder. See the
+	// https://todoist.com/api/v1/docs#tag/Due-dates section for more details.
+	// Note that reminders only support due dates with time, since full-day
+	// reminders don't make sense.
 	Due Due `json:"due"`
 
 	// The relative time in minutes before the due date of the item, in which the

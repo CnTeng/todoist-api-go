@@ -4,7 +4,7 @@ package sync
 //
 // See [Move a section] for more details.
 //
-// [Move a section]: https://developer.todoist.com/sync/v9/#move-a-section
+// [Move a section]: https://todoist.com/api/v1/docs#tag/Sync/Sections/Move-a-section
 type SectionMoveArgs struct {
 	// Required.
 	// The ID of the section.
@@ -15,7 +15,6 @@ type SectionMoveArgs struct {
 	ProjectID *string `json:"project_id,omitempty"`
 }
 
-// Return "section_move" as command type.
-func (args *SectionMoveArgs) Type() string {
+func (args *SectionMoveArgs) command() string {
 	return "section_move"
 }
