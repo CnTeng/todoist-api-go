@@ -6,12 +6,6 @@ import (
 	"github.com/CnTeng/todoist-api-go/sync"
 )
 
-const (
-	projectsGetEndpoint         = baseURL + "/projects/get"
-	projectsGetDataEndpoint     = baseURL + "/projects/get_data"
-	projectsGetArchivedEndpoint = baseURL + "/projects/get_archived"
-)
-
 func (c *Client) AddProject(ctx context.Context, args *sync.ProjectAddArgs) (*sync.SyncResponse, error) {
 	return c.executeCommand(ctx, args)
 }
@@ -21,6 +15,18 @@ func (c *Client) UpdateProject(ctx context.Context, args *sync.ProjectUpdateArgs
 }
 
 func (c *Client) MoveProject(ctx context.Context, args *sync.ProjectMoveArgs) (*sync.SyncResponse, error) {
+	return c.executeCommand(ctx, args)
+}
+
+func (c *Client) MoveProjectToWorkspace(ctx context.Context, args *sync.ProjectMoveToWorkspaceArgs) (*sync.SyncResponse, error) {
+	return c.executeCommand(ctx, args)
+}
+
+func (c *Client) MoveProjectToPersonal(ctx context.Context, args *sync.ProjectMoveToPersonalArgs) (*sync.SyncResponse, error) {
+	return c.executeCommand(ctx, args)
+}
+
+func (c *Client) LeaveProject(ctx context.Context, args *sync.ProjectLeaveArgs) (*sync.SyncResponse, error) {
 	return c.executeCommand(ctx, args)
 }
 
@@ -46,16 +52,4 @@ func (c *Client) UnarchiveProject(ctx context.Context, args *sync.ProjectUnarchi
 
 func (c *Client) ReorderProject(ctx context.Context, args *sync.ProjectReorderArgs) (*sync.SyncResponse, error) {
 	return c.executeCommand(ctx, args)
-}
-
-func (c *Client) GetProjectInfo(ctx context.Context, params *sync.ProjectGetInfoParams) (*sync.ProjectGetInfoResponse, error) {
-	return do[sync.ProjectGetInfoParams, sync.ProjectGetInfoResponse](ctx, c, projectsGetEndpoint, params)
-}
-
-func (c *Client) GetProjectData(ctx context.Context, params *sync.ProjectGetDataParams) (*sync.ProjectGetDataResponse, error) {
-	return do[sync.ProjectGetDataParams, sync.ProjectGetDataResponse](ctx, c, projectsGetDataEndpoint, params)
-}
-
-func (c *Client) GetArchivedProjects(ctx context.Context, params *sync.ProjectGetArchivedParams) (*sync.ProjectGetArchivedResponse, error) {
-	return do[sync.ProjectGetArchivedParams, sync.ProjectGetArchivedResponse](ctx, c, projectsGetArchivedEndpoint, params)
 }

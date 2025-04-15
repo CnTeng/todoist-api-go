@@ -9,4 +9,7 @@ const (
 	TaskQuickAddEndpoint                  = TaskEndpoint + "/quick"
 	TaskCompletedByCompletionDateEndpoint = TaskEndpoint + "/completed/by_completion_date"
 	TaskCompletedByDueDateEndpoint        = TaskEndpoint + "/completed/by_due_date"
+
+	ProjectEndpoint         = baseURL + "/projects"
+	ProjectArchivedEndpoint = ProjectEndpoint + "/archived"
 )

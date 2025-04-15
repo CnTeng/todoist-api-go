@@ -1,9 +1,10 @@
 package sync
 
-// Update child_order properties of projects in bulk. See [Reorder projects] for
-// more details.
+// Update child_order properties of projects in bulk.
 //
-// [Reorder projects]: https://developer.todoist.com/sync/v9/#reorder-projects
+// See [Reorder projects] for more details.
+//
+// [Reorder projects]: https://todoist.com/api/v1/docs#tag/Sync/Projects/Reorder-projects
 type ProjectReorderArgs struct {
 	// Required.
 	// An array of objects to update.
