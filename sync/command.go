@@ -35,6 +35,14 @@ func NewCommandWithTempID(args CommandArgs, tempID uuid.UUID) *Command {
 
 type Commands []*Command
 
+func NewCommands[T CommandArgs](args []T) Commands {
+	cmds := make(Commands, 0, len(args))
+	for _, arg := range args {
+		cmds = append(cmds, NewCommand(arg))
+	}
+	return cmds
+}
+
 func (cs *Commands) EncodeValues(key string, v *url.Values) error {
 	b, err := json.Marshal(cs)
 	if err != nil {

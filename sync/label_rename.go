@@ -4,8 +4,8 @@ package sync
 //
 // See [Rename a shared label] for more details.
 //
-// [Rename a shared label]: https://developer.todoist.com/sync/v9/#rename-a-shared-label
-type LabelRenameSharedArgs struct {
+// [Rename a shared label]: https://todoist.com/api/v1/docs#tag/Sync/Labels/Rename-a-shared-label
+type LabelRenameArgs struct {
 	// Required.
 	// The current name of the label to modify.
 	NameOld string `json:"name_old"`
@@ -16,6 +16,6 @@ type LabelRenameSharedArgs struct {
 }
 
 // Return "label_rename" as command type.
-func (args *LabelRenameSharedArgs) Type() string {
+func (args *LabelRenameArgs) Type() string {
 	return "label_rename"
 }

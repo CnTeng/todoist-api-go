@@ -14,17 +14,20 @@ func (c *Client) UpdateLabel(ctx context.Context, args *sync.LabelUpdateArgs) (*
 	return c.executeCommand(ctx, args)
 }
 
-func (c *Client) DeleteLabel(ctx context.Context, id string) (*sync.SyncResponse, error) {
-	args := &sync.LabelDeleteArgs{ID: id}
+func (c *Client) DeleteLabel(ctx context.Context, args *sync.LabelDeleteArgs) (*sync.SyncResponse, error) {
 	return c.executeCommand(ctx, args)
 }
 
-func (c *Client) RenameSharedLabel(ctx context.Context, args *sync.LabelRenameSharedArgs) (*sync.SyncResponse, error) {
+func (c *Client) DeleteLabels(ctx context.Context, args []*sync.LabelDeleteArgs) (*sync.SyncResponse, error) {
+	cmds := sync.NewCommands(args)
+	return c.executeCommands(ctx, &cmds)
+}
+
+func (c *Client) RenameLabel(ctx context.Context, args *sync.LabelRenameArgs) (*sync.SyncResponse, error) {
 	return c.executeCommand(ctx, args)
 }
 
-func (c *Client) DeleteSharedLabel(ctx context.Context, name string) (*sync.SyncResponse, error) {
-	args := &sync.LabelDeleteSharedArgs{Name: name}
+func (c *Client) DeleteLabelOccurrences(ctx context.Context, args *sync.LabelDeleteOccurrencesArgs) (*sync.SyncResponse, error) {
 	return c.executeCommand(ctx, args)
 }
 
