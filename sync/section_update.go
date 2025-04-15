@@ -4,7 +4,7 @@ package sync
 //
 // See [Update a section] for more details.
 //
-// [Update a section]: https://developer.todoist.com/sync/v9/#update-a-section
+// [Update a section]: https://todoist.com/api/v1/docs#tag/Sync/Sections/Update-a-section
 type SectionUpdateArgs struct {
 	// Required.
 	// The ID of the section.
@@ -15,8 +15,8 @@ type SectionUpdateArgs struct {
 	Name *string `json:"name,omitempty"`
 
 	// Optional.
-	// Whether the section's tasks are collapsed.
-	Collapsed *bool `json:"collapsed,omitempty"`
+	// Whether the section's tasks are collapsed (a true or false value).
+	IsCollapsed *bool `json:"is_collapsed,omitempty"`
 }
 
 // Return "section_update" as command type.

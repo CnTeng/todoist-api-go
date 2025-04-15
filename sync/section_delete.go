@@ -4,7 +4,7 @@ package sync
 //
 // See [Delete a section] for more details.
 //
-// [Delete a section]: https://developer.todoist.com/sync/v9/#delete-a-section
+// [Delete a section]: https://todoist.com/api/v1/docs#tag/Sync/Sections/Delete-a-section
 type SectionDeleteArgs struct {
 	// Required.
 	// The ID of the section.
