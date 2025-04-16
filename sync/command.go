@@ -39,9 +39,9 @@ func NewCommandWithTempID(args CommandArgs, tempID uuid.UUID) *Command {
 type Commands []*Command
 
 func NewCommands[T CommandArgs](args []T) Commands {
-	cmds := make(Commands, 0, len(args))
-	for _, arg := range args {
-		cmds = append(cmds, NewCommand(arg))
+	cmds := make(Commands, len(args))
+	for i, arg := range args {
+		cmds[i] = NewCommand(arg)
 	}
 	return cmds
 }
