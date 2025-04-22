@@ -1,3 +1,5 @@
+// Package ws provides a WebSocket client for receiving real-time sync
+// notifications
 package ws
 
 import (

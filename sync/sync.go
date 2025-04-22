@@ -1,3 +1,4 @@
+// Package sync defines the models of the sync API.
 package sync
 
 import (

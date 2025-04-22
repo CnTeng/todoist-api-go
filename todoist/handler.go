@@ -12,7 +12,7 @@ type Handler interface {
 	HandleResponse(ctx context.Context, resp any) error
 }
 
-var DefaultHandler = &defaultHandler{syncToken: "*"}
+var DefaultHandler = &defaultHandler{syncToken: sync.DefaultSyncToken}
 
 type defaultHandler struct {
 	syncToken string
