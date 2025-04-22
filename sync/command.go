@@ -30,12 +30,6 @@ func NewCommand(args CommandArgs) *Command {
 	}
 }
 
-func NewCommandWithTempID(args CommandArgs, tempID uuid.UUID) *Command {
-	c := NewCommand(args)
-	c.TempID = tempID
-	return c
-}
-
 type Commands []*Command
 
 func NewCommands[T CommandArgs](args []T) Commands {

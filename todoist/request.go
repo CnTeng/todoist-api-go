@@ -5,7 +5,6 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"io"
 	"net/http"
 	"net/url"
@@ -60,7 +59,6 @@ func (r *request[T]) do(ctx context.Context, method string) (*T, error) {
 		if err != nil {
 			return nil, err
 		}
-		fmt.Println("Request URL:", string(b))
 		body = bytes.NewBuffer(b)
 	}
 

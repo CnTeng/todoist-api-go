@@ -1,3 +1,4 @@
+// Package todoist implements a client for interacting with the Todoist API v1.
 package todoist
 
 import (
