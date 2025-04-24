@@ -11,7 +11,7 @@ func (c *Client) AddTaskQuick(ctx context.Context, request *rest.TaskQuickAddReq
 	return post[sync.Task](ctx, c, TaskQuickAddEndpoint, request)
 }
 
-func (c *Client) GetTasksCompletedByCompletionDate(ctx context.Context, params *rest.TaskGetCompletedByDueDateParams) (*rest.TaskGetCompletedResponse, error) {
+func (c *Client) GetTasksCompletedByCompletionDate(ctx context.Context, params *rest.TaskGetCompletedByCompletionDateParams) (*rest.TaskGetCompletedResponse, error) {
 	return get[rest.TaskGetCompletedResponse](ctx, c, TaskCompletedByCompletionDateEndpoint, params)
 }
 

@@ -36,6 +36,12 @@ type TaskGetCompletedByCompletionDateParams struct {
 	WorkspaceID *string `json:"workspace_id,omitempty" url:"workspace_id,omitempty"`
 
 	// Optional.
+	ProjectID *string `json:"project_id,omitempty" url:"project_id,omitempty"`
+
+	// Optional.
+	SectionID *string `json:"section_id,omitempty" url:"section_id,omitempty"`
+
+	// Optional.
 	FilterQuery *string `json:"filter_query,omitempty" url:"filter_query,omitempty"`
 
 	// Optional.
