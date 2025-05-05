@@ -6,7 +6,6 @@ import (
 	"context"
 	"log"
 	"net/http"
-	"net/url"
 	"sync"
 	"time"
 
@@ -14,10 +13,7 @@ import (
 	"github.com/coder/websocket/wsjson"
 )
 
-const (
-	baseURL   = "wss://ws.todoist.com/ws"
-	originURL = "https://app.todoist.com"
-)
+const originURL = "https://app.todoist.com"
 
 const (
 	pingInterval = 60 * time.Second
@@ -25,7 +21,7 @@ const (
 )
 
 type Client struct {
-	token   string
+	url     string
 	handler Handler
 
 	mu   *sync.Mutex
@@ -37,9 +33,9 @@ type Client struct {
 	msgCh  chan Message
 }
 
-func NewClient(token string, handler Handler) *Client {
+func NewClient(url string, handler Handler) *Client {
 	return &Client{
-		token:   token,
+		url:     url,
 		handler: handler,
 		mu:      &sync.Mutex{},
 		wg:      &sync.WaitGroup{},
@@ -75,17 +71,11 @@ func (c *Client) Close() error {
 }
 
 func (c *Client) dial(ctx context.Context) (*websocket.Conn, error) {
-	u, err := url.Parse(baseURL)
-	if err != nil {
-		return nil, err
-	}
-	u.RawQuery = "token=" + c.token
-
 	header := make(http.Header)
 	header.Add("Origin", originURL)
 	opts := &websocket.DialOptions{HTTPHeader: header}
 
-	conn, _, err := websocket.Dial(ctx, u.String(), opts)
+	conn, _, err := websocket.Dial(ctx, c.url, opts)
 	if err != nil {
 		return nil, err
 	}
