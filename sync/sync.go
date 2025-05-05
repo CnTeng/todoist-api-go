@@ -75,9 +75,8 @@ type SyncResponse struct {
 	// A dictionary object that maps temporary resource IDs to real resource IDs.
 	TempIDMapping map[uuid.UUID]string `json:"temp_id_mapping"`
 
-	// TODO:
 	// A user object.
-	User map[string]any `json:"user,omitempty"`
+	User *User `json:"user,omitempty"`
 
 	// An array of project objects.
 	Projects []*Project `json:"projects,omitempty"`
@@ -125,11 +124,9 @@ type SyncResponse struct {
 	// implement unread notifications.
 	LiveNotificationsLastReadID string `json:"live_notifications_last_read_id"`
 
-	// TODO:
 	// A JSON object containing user settings.
 	UserSettings map[string]any `json:"user_settings,omitempty"`
 
-	// TODO:
 	// A JSON object containing user plan limits.
 	UserPlanLimits map[string]any `json:"user_plan_limits,omitempty"`
 

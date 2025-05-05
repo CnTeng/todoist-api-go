@@ -12,4 +12,6 @@ const (
 
 	ProjectEndpoint         = baseURL + "/projects"
 	ProjectArchivedEndpoint = ProjectEndpoint + "/archived"
+
+	UserEndpoint = baseURL + "/user"
 )

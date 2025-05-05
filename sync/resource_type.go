@@ -3,7 +3,7 @@ package sync
 type ResourceType string
 
 const (
-	User                 ResourceType = "user"
+	UserData             ResourceType = "user"
 	Projects             ResourceType = "projects"
 	Tasks                ResourceType = "items"
 	TaskComments         ResourceType = "notes"
@@ -26,7 +26,7 @@ const (
 	Stats                ResourceType = "stats"
 	All                  ResourceType = "all"
 
-	NoUser                 ResourceType = "-user"
+	NoUserData             ResourceType = "-user"
 	NoProjects             ResourceType = "-projects"
 	NoTasks                ResourceType = "-items"
 	NoTaskComments         ResourceType = "-notes"
