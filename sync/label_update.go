@@ -31,3 +31,22 @@ type LabelUpdateArgs struct {
 func (args *LabelUpdateArgs) command() string {
 	return "label_update"
 }
+
+// Rename a shared label.
+//
+// See [Rename a shared label] for more details.
+//
+// [Rename a shared label]: https://todoist.com/api/v1/docs#tag/Sync/Labels/Rename-a-shared-label
+type LabelRenameSharedArgs struct {
+	// Required.
+	// The current name of the label to modify.
+	NameOld string `json:"name_old"`
+
+	// Required.
+	// The new name for the label.
+	NameNew string `json:"name_new"`
+}
+
+func (args *LabelRenameSharedArgs) command() string {
+	return "label_rename"
+}

@@ -28,12 +28,12 @@ func (args *LabelDeleteArgs) command() string {
 // See [Delete shared label occurrences] for more details.
 //
 // [Delete shared label occurrences]: https://todoist.com/api/v1/docs#tag/Sync/Labels/Delete-shared-label-occurrences
-type LabelDeleteOccurrencesArgs struct {
+type LabelDeleteSharedArgs struct {
 	// Required.
 	// The name of the label to remove.
 	Name string `json:"name"`
 }
 
-func (args *LabelDeleteOccurrencesArgs) command() string {
+func (args *LabelDeleteSharedArgs) command() string {
 	return "label_delete_occurrences"
 }
