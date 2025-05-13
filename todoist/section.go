@@ -6,34 +6,51 @@ import (
 	"github.com/CnTeng/todoist-api-go/sync"
 )
 
-func (c *Client) AddSection(ctx context.Context, args *sync.SectionAddArgs) (*sync.SyncResponse, error) {
-	return c.ExecuteCommand(ctx, args)
+// SectionService provides methods for managing sections.
+type SectionService struct {
+	client *Client
 }
 
-func (c *Client) UpdateSection(ctx context.Context, args *sync.SectionUpdateArgs) (*sync.SyncResponse, error) {
-	return c.ExecuteCommand(ctx, args)
+func NewSectionService(client *Client) *SectionService {
+	return &SectionService{client: client}
 }
 
-func (c *Client) MoveSection(ctx context.Context, args *sync.SectionMoveArgs) (*sync.SyncResponse, error) {
-	return c.ExecuteCommand(ctx, args)
+func (s *SectionService) AddSection(ctx context.Context, args *sync.SectionAddArgs) (*sync.SyncResponse, error) {
+	return s.client.ExecuteCommand(ctx, args)
 }
 
-func (c *Client) ReorderSection(ctx context.Context, args *sync.SectionReorderArgs) (*sync.SyncResponse, error) {
-	return c.ExecuteCommand(ctx, args)
+func (s *SectionService) UpdateSection(ctx context.Context, args *sync.SectionUpdateArgs) (*sync.SyncResponse, error) {
+	return s.client.ExecuteCommand(ctx, args)
 }
 
-func (c *Client) DeleteSection(ctx context.Context, args *sync.SectionDeleteArgs) (*sync.SyncResponse, error) {
-	return c.ExecuteCommand(ctx, args)
+func (s *SectionService) MoveSection(ctx context.Context, args *sync.SectionMoveArgs) (*sync.SyncResponse, error) {
+	return s.client.ExecuteCommand(ctx, args)
 }
 
-func (c *Client) DeleteSections(ctx context.Context, args []*sync.SectionDeleteArgs) (*sync.SyncResponse, error) {
-	return c.ExecuteCommands(ctx, sync.NewCommands(args))
+func (s *SectionService) ReorderSections(ctx context.Context, args *sync.SectionReorderArgs) (*sync.SyncResponse, error) {
+	return s.client.ExecuteCommand(ctx, args)
 }
 
-func (c *Client) ArchiveSection(ctx context.Context, args *sync.SectionArchiveArgs) (*sync.SyncResponse, error) {
-	return c.ExecuteCommand(ctx, args)
+func (s *SectionService) ArchiveSection(ctx context.Context, args *sync.SectionArchiveArgs) (*sync.SyncResponse, error) {
+	return s.client.ExecuteCommand(ctx, args)
 }
 
-func (c *Client) UnarchiveSection(ctx context.Context, args *sync.SectionUnarchiveArgs) (*sync.SyncResponse, error) {
-	return c.ExecuteCommand(ctx, args)
+func (s *SectionService) ArchiveSections(ctx context.Context, args []*sync.SectionArchiveArgs) (*sync.SyncResponse, error) {
+	return s.client.ExecuteCommands(ctx, sync.NewCommands(args))
+}
+
+func (s *SectionService) UnarchiveSection(ctx context.Context, args *sync.SectionUnarchiveArgs) (*sync.SyncResponse, error) {
+	return s.client.ExecuteCommand(ctx, args)
+}
+
+func (s *SectionService) UnarchiveSections(ctx context.Context, args []*sync.SectionUnarchiveArgs) (*sync.SyncResponse, error) {
+	return s.client.ExecuteCommands(ctx, sync.NewCommands(args))
+}
+
+func (s *SectionService) DeleteSection(ctx context.Context, args *sync.SectionDeleteArgs) (*sync.SyncResponse, error) {
+	return s.client.ExecuteCommand(ctx, args)
+}
+
+func (s *SectionService) DeleteSections(ctx context.Context, args []*sync.SectionDeleteArgs) (*sync.SyncResponse, error) {
+	return s.client.ExecuteCommands(ctx, sync.NewCommands(args))
 }
