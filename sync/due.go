@@ -54,18 +54,18 @@ const floatingDateTime = "2006-01-02T15:04:05.000000"
 // [Due dates]: https://todoist.com/api/v1/docs#tag/Due-dates
 type Due struct {
 	// Due date.
-	Date *time.Time `json:"date"`
+	Date *time.Time `json:"date,omitempty"`
 
 	// Timezone of the due instance.
 	//
 	// Used to recalculate properly the next iteration for a recurring due date.
-	Timezone *time.Location `json:"timezone"`
+	Timezone *time.Location `json:"timezone,omitempty"`
 
 	// Human-readable representation of due date. String always represents the due
 	// object in user's timezone. See
 	// https://todoist.com/help/articles/introduction-to-dates-and-time-q7VobO for
 	// more details.
-	String *string `json:"string"`
+	String *string `json:"string,omitempty"`
 
 	// Lang which has to be used to parse the content of the string attribute.
 	// Used by clients and on the server side to properly process due dates when
@@ -73,18 +73,18 @@ type Due struct {
 	//
 	// Valid languages are:
 	//   en, da, pl, zh, ko, de, pt, ja, it, fr, sv, ru, es, nl, fi, nb, tw.
-	Lang *string `json:"lang"`
+	Lang *string `json:"lang,omitempty"`
 
 	// Boolean flag which is set to true if the due object represents a recurring
 	// due date.
-	IsRecurring *bool `json:"is_recurring"`
+	IsRecurring *bool `json:"is_recurring,omitempty"`
 }
 
 func (d *Due) UnmarshalJSON(data []byte) error {
 	type alias Due
 	aux := &struct {
-		Date     string  `json:"date"`
-		Timezone *string `json:"timezone"`
+		Date     *string `json:"date,omitempty"`
+		Timezone *string `json:"timezone,omitempty"`
 		*alias
 	}{alias: (*alias)(d)}
 
@@ -92,11 +92,13 @@ func (d *Due) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
-	date, err := parseDate(aux.Date)
-	if err != nil {
-		return err
+	if aux.Date != nil {
+		date, err := parseDate(*aux.Date)
+		if err != nil {
+			return err
+		}
+		d.Date = &date
 	}
-	d.Date = &date
 
 	if aux.Timezone != nil {
 		tz, err := parseTimezone(*aux.Timezone)
@@ -112,8 +114,8 @@ func (d *Due) UnmarshalJSON(data []byte) error {
 func (d *Due) MarshalJSON() ([]byte, error) {
 	type alias Due
 	aux := struct {
-		Date     *string `json:"date"`
-		Timezone *string `json:"timezone"`
+		Date     *string `json:"date,omitempty"`
+		Timezone *string `json:"timezone,omitempty"`
 		*alias
 	}{alias: (*alias)(d)}
 
