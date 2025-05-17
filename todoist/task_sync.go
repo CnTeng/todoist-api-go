@@ -6,46 +6,63 @@ import (
 	"github.com/CnTeng/todoist-api-go/sync"
 )
 
-func (c *Client) AddTask(ctx context.Context, args *sync.TaskAddArgs) (*sync.SyncResponse, error) {
-	return c.ExecuteCommand(ctx, args)
+// TaskService provides methods for managing tasks.
+type TaskService struct {
+	client *Client
 }
 
-func (c *Client) UpdateTask(ctx context.Context, args *sync.TaskUpdateArgs) (*sync.SyncResponse, error) {
-	return c.ExecuteCommand(ctx, args)
+func NewTaskService(client *Client) *TaskService {
+	return &TaskService{client: client}
 }
 
-func (c *Client) MoveTask(ctx context.Context, args *sync.TaskMoveArgs) (*sync.SyncResponse, error) {
-	return c.ExecuteCommand(ctx, args)
+func (s *TaskService) AddTask(ctx context.Context, args *sync.TaskAddArgs) (*sync.SyncResponse, error) {
+	return s.client.ExecuteCommand(ctx, args)
 }
 
-func (c *Client) ReorderTasks(ctx context.Context, args *sync.TaskReorderArgs) (*sync.SyncResponse, error) {
-	return c.ExecuteCommand(ctx, args)
+func (s *TaskService) UpdateTask(ctx context.Context, args *sync.TaskUpdateArgs) (*sync.SyncResponse, error) {
+	return s.client.ExecuteCommand(ctx, args)
 }
 
-func (c *Client) DeleteTask(ctx context.Context, args *sync.TaskDeleteArgs) (*sync.SyncResponse, error) {
-	return c.ExecuteCommand(ctx, args)
+func (s *TaskService) UpdateTaskDayOrders(ctx context.Context, args *sync.TaskUpdateDayOrdersArgs) (*sync.SyncResponse, error) {
+	return s.client.ExecuteCommand(ctx, args)
 }
 
-func (c *Client) DeleteTasks(ctx context.Context, args []*sync.TaskDeleteArgs) (*sync.SyncResponse, error) {
-	return c.ExecuteCommands(ctx, sync.NewCommands(args))
+func (s *TaskService) MoveTask(ctx context.Context, args *sync.TaskMoveArgs) (*sync.SyncResponse, error) {
+	return s.client.ExecuteCommand(ctx, args)
 }
 
-func (c *Client) CompleteTask(ctx context.Context, args *sync.TaskCompleteArgs) (*sync.SyncResponse, error) {
-	return c.ExecuteCommand(ctx, args)
+func (s *TaskService) ReorderTasks(ctx context.Context, args *sync.TaskReorderArgs) (*sync.SyncResponse, error) {
+	return s.client.ExecuteCommand(ctx, args)
 }
 
-func (c *Client) CompleteTaskRecurring(ctx context.Context, args *sync.TaskCompleteRecurringArgs) (*sync.SyncResponse, error) {
-	return c.ExecuteCommand(ctx, args)
+func (s *TaskService) CompleteTask(ctx context.Context, args *sync.TaskCompleteArgs) (*sync.SyncResponse, error) {
+	return s.client.ExecuteCommand(ctx, args)
 }
 
-func (c *Client) UncompleteTask(ctx context.Context, args *sync.TaskUncompleteArgs) (*sync.SyncResponse, error) {
-	return c.ExecuteCommand(ctx, args)
+func (s *TaskService) CompleteTaskRecurring(ctx context.Context, args *sync.TaskCompleteRecurringArgs) (*sync.SyncResponse, error) {
+	return s.client.ExecuteCommand(ctx, args)
 }
 
-func (c *Client) CloseTask(ctx context.Context, args *sync.TaskCloseArgs) (*sync.SyncResponse, error) {
-	return c.ExecuteCommand(ctx, args)
+func (s *TaskService) CloseTask(ctx context.Context, args *sync.TaskCloseArgs) (*sync.SyncResponse, error) {
+	return s.client.ExecuteCommand(ctx, args)
 }
 
-func (c *Client) UpdateTaskDayOrders(ctx context.Context, args *sync.TaskUpdateDayOrdersArgs) (*sync.SyncResponse, error) {
-	return c.ExecuteCommand(ctx, args)
+func (s *TaskService) CloseTasks(ctx context.Context, args []*sync.TaskCloseArgs) (*sync.SyncResponse, error) {
+	return s.client.ExecuteCommands(ctx, sync.NewCommands(args))
+}
+
+func (s *TaskService) UncompleteTask(ctx context.Context, args *sync.TaskUncompleteArgs) (*sync.SyncResponse, error) {
+	return s.client.ExecuteCommand(ctx, args)
+}
+
+func (s *TaskService) UncompleteTasks(ctx context.Context, args []*sync.TaskUncompleteArgs) (*sync.SyncResponse, error) {
+	return s.client.ExecuteCommands(ctx, sync.NewCommands(args))
+}
+
+func (s *TaskService) DeleteTask(ctx context.Context, args *sync.TaskDeleteArgs) (*sync.SyncResponse, error) {
+	return s.client.ExecuteCommand(ctx, args)
+}
+
+func (s *TaskService) DeleteTasks(ctx context.Context, args []*sync.TaskDeleteArgs) (*sync.SyncResponse, error) {
+	return s.client.ExecuteCommands(ctx, sync.NewCommands(args))
 }

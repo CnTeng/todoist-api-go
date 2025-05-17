@@ -12,6 +12,7 @@ import (
 func main() {
 	token := os.Getenv("API_TOKEN")
 	cli := todoist.NewClient(http.DefaultClient, token, todoist.DefaultHandler)
+	taskSvc := todoist.NewTaskService(cli)
 
 	_, err := cli.SyncWithAutoToken(context.Background(), true)
 	if err != nil {
@@ -19,7 +20,7 @@ func main() {
 	}
 
 	args := &sync.TaskAddArgs{Content: "test"}
-	_, err = cli.AddTask(context.Background(), args)
+	_, err = taskSvc.AddTask(context.Background(), args)
 	if err != nil {
 		panic(err)
 	}
