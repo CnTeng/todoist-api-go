@@ -1,10 +1,5 @@
 package sync
 
-// Add a new reminder to the user account related to the API credentials.
-//
-// See [Add a reminder] for more details.
-//
-// [Add a reminder]: https://todoist.com/api/v1/docs#tag/Sync/Reminders/Add-a-reminder
 type ReminderAddArgs struct {
 	// Required.
 	// The item ID for which the reminder is about.
