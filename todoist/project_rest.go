@@ -22,7 +22,7 @@ func (s *ProjectService) GetAllArchivedProjects(ctx context.Context, params *res
 			return nil, err
 		}
 
-		ps = append(ps, resp.Projcets...)
+		ps = append(ps, resp.Projects...)
 		if resp.NextCursor == nil {
 			break
 		}

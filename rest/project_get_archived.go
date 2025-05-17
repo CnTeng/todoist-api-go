@@ -12,6 +12,6 @@ type ProjectGetArchivedParams struct {
 }
 
 type ProjectGetArchivedResponse struct {
-	Projcets   []*sync.Project `json:"results"`
+	Projects   []*sync.Project `json:"results"`
 	NextCursor *string         `json:"next_cursor,omitempty"`
 }
