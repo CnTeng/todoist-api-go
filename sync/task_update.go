@@ -1,12 +1,5 @@
 package sync
 
-// Update task attributes. Please note that updating the parent, moving,
-// completing or uncompleting tasks is not supported by item_update, more
-// specific commands have to be used instead.
-//
-// See [Update a task] for more details.
-//
-// [Update a task]: https://todoist.com/api/v1/docs#tag/Sync/Tasks/Update-a-task
 type TaskUpdateArgs struct {
 	// Required.
 	// The ID of the task.

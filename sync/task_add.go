@@ -1,10 +1,5 @@
 package sync
 
-// Add a new task to a project.
-//
-// See [Add a task] for more details.
-//
-// [Add a task]: https://todoist.com/api/v1/docs#tag/Sync/Tasks/Add-a-task
 type TaskAddArgs struct {
 	// Required.
 	// The text of the task. This value may contain markdown-formatted text and

@@ -1,11 +1,5 @@
 package rest
 
-// Add a new task using the Quick Add implementation similar to that used in the
-// official clients.
-//
-// See [Quick add a task] for more details.
-//
-// [Quick add a task]: https://todoist.com/api/v1/docs#tag/Tasks/operation/quick_add_api_v1_tasks_quick_post
 type TaskQuickAddRequest struct {
 	// Required.
 	// The text of the task that is parsed. It can include a due date in free form

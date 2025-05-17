@@ -1,11 +1,5 @@
 package sync
 
-// Move task to a different location. Only one of parent_id, section_id or
-// project_id must be set.
-//
-// See [Move a task] for more details.
-//
-// [Move a task]: https://todoist.com/api/v1/docs#tag/Sync/Tasks/Move-a-task
 type TaskMoveArgs struct {
 	// Required.
 	// The ID of the task.
