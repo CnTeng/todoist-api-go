@@ -7,10 +7,13 @@ import (
 	"github.com/CnTeng/todoist-api-go/sync"
 )
 
+// Get archived projects.
 func (s *ProjectService) GetArchivedProjects(ctx context.Context, params *rest.ProjectGetArchivedParams) (*rest.ProjectGetArchivedResponse, error) {
 	return get[rest.ProjectGetArchivedResponse](ctx, s.client, ProjectArchivedEndpoint, params)
 }
 
+// A simple wrapper around [ProjectService.GetAllArchivedProjects] that gets all
+// archived projects.
 func (s *ProjectService) GetAllArchivedProjects(ctx context.Context, params *rest.ProjectGetArchivedParams) ([]*sync.Project, error) {
 	ps := []*sync.Project{}
 	for {

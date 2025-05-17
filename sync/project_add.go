@@ -1,10 +1,5 @@
 package sync
 
-// Add a new project.
-//
-// See [Add a project] for more details.
-//
-// [Add a project]: https://todoist.com/api/v1/docs#tag/Sync/Projects/Add-a-project
 type ProjectAddArgs struct {
 	// Required.
 	// The name of the project (a string value).

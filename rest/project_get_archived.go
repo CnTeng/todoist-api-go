@@ -2,7 +2,6 @@ package rest
 
 import "github.com/CnTeng/todoist-api-go/sync"
 
-// Get archived projects.
 type ProjectGetArchivedParams struct {
 	// Optional.
 	Cursor *string `json:"cursor,omitempty" url:"cursor,omitempty"`
