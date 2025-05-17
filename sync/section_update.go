@@ -1,10 +1,5 @@
 package sync
 
-// Updates section attributes.
-//
-// See [Update a section] for more details.
-//
-// [Update a section]: https://todoist.com/api/v1/docs#tag/Sync/Sections/Update-a-section
 type SectionUpdateArgs struct {
 	// Required.
 	// The ID of the section.

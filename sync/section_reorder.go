@@ -1,10 +1,5 @@
 package sync
 
-// Update section_order properties of sections in bulk.
-//
-// See [Reorder sections] for more details.
-//
-// [Reorder sections]: https://todoist.com/api/v1/docs#tag/Sync/Sections/Reorder-sections
 type SectionReorderArgs struct {
 	// Required.
 	// An array of objects to update.
