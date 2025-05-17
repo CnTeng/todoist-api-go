@@ -1,10 +1,5 @@
 package sync
 
-// Update a filter.
-//
-// See [Update a filter] for more details.
-//
-// [Update a filter]: https://todoist.com/api/v1/docs#tag/Sync/Filters/Update-a-filter
 type FilterUpdateArgs struct {
 	// Required.
 	// The ID of the filter.
