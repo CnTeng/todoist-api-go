@@ -1,10 +1,5 @@
 package sync
 
-// Add a new personal label.
-//
-// See [Add a personal label] for more details.
-//
-// [Add a personal label]: https://todoist.com/api/v1/docs#tag/Sync/Labels/Add-a-personal-label
 type LabelAddArgs struct {
 	// Required.
 	// The name of the label.
