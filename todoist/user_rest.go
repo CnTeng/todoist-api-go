@@ -6,6 +6,16 @@ import (
 	"github.com/CnTeng/todoist-api-go/sync"
 )
 
-func (c *Client) GetUser(ctx context.Context) (*sync.User, error) {
-	return get[sync.User](ctx, c, UserEndpoint, nil)
+// UserService provides methods for managing user information.
+type UserService struct {
+	client *Client
+}
+
+func NewUserService(client *Client) *UserService {
+	return &UserService{client: client}
+}
+
+// Get user information.
+func (s *UserService) GetUser(ctx context.Context) (*sync.User, error) {
+	return get[sync.User](ctx, s.client, UserEndpoint, nil)
 }
