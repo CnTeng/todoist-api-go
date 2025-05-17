@@ -60,6 +60,7 @@ Most of the Sync APIs and a small portion of the RESTful APIs have been implemen
 ```go
 token := os.Getenv("API_TOKEN")
 cli := todoist.NewClient(http.DefaultClient, token, todoist.DefaultHandler)
+taskSvc := todoist.NewTaskService(cli)
 
 _, err := cli.SyncWithAutoToken(context.Background(), true)
 if err != nil {
@@ -67,7 +68,7 @@ if err != nil {
 }
 
 args := &sync.TaskAddArgs{Content: "test"}
-_, err = cli.AddTask(context.Background(), args)
+_, err = taskSvc.AddTask(context.Background(), args)
 if err != nil {
     panic(err)
 }
@@ -95,9 +96,10 @@ if err != nil {
 ```go
 token := os.Getenv("API_TOKEN")
 cli := todoist.NewClient(http.DefaultClient, token, todoist.DefaultHandler)
+taskSvc := todoist.NewTaskService(cli)
 
 req := &rest.TaskQuickAddRequest{Text: "test"}
-_, err := cli.AddTaskQuick(context.Background(), req)
+_, err := taskSvc.QuickAddTask(context.Background(), req)
 if err != nil {
     panic(err)
 }

@@ -1,10 +1,5 @@
 package sync
 
-// Add a filter.
-//
-// See [Add a filter] for more details.
-//
-// [Add a filter]: https://todoist.com/api/v1/docs#tag/Sync/Filters/Add-a-filter
 type FilterAddArgs struct {
 	// Required.
 	// The name of the filter.

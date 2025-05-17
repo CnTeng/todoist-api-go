@@ -2,7 +2,6 @@ package rest
 
 import "github.com/CnTeng/todoist-api-go/sync"
 
-// Get archived projects.
 type ProjectGetArchivedParams struct {
 	// Optional.
 	Cursor *string `json:"cursor,omitempty" url:"cursor,omitempty"`
@@ -13,6 +12,6 @@ type ProjectGetArchivedParams struct {
 }
 
 type ProjectGetArchivedResponse struct {
-	Tasks      []*sync.Project `json:"results"`
+	Projects   []*sync.Project `json:"results"`
 	NextCursor *string         `json:"next_cursor,omitempty"`
 }

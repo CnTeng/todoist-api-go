@@ -1,11 +1,5 @@
 package sync
 
-// Completes a task and its sub-tasks and moves them to the archive. See also
-// [TaskCloseArgs] for a simplified version of the command.
-//
-// See [Complete task] for more details.
-//
-// [Complete task]: https://todoist.com/api/v1/docs#tag/Sync/Tasks/Complete-task
 type TaskCompleteArgs struct {
 	// Required.
 	// Task ID to complete.
@@ -21,13 +15,6 @@ func (args *TaskCompleteArgs) command() string {
 	return "item_complete"
 }
 
-// Complete a recurring task. The reason why this is a special case is because
-// we need to mark a recurring completion (and using item_update won't do this).
-// See also [TaskCloseArgs] for a simplified version of the command.
-//
-// See [Complete a recurring task] for more details.
-//
-// [Complete a recurring task]: https://todoist.com/api/v1/docs#tag/Sync/Tasks/Complete-a-recurring-task
 type TaskCompleteRecurringArgs struct {
 	// Required.
 	// The ID of the item to update (a number or a temp id).

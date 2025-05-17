@@ -1,10 +1,5 @@
 package sync
 
-// Update a project.
-//
-// See [Update a project] for more details.
-//
-// [Update a project]: https://todoist.com/api/v1/docs#tag/Sync/Projects/Update-a-project
 type ProjectUpdateArgs struct {
 	// Required.
 	// The ID of the project (could be temp id).

@@ -1,10 +1,5 @@
 package sync
 
-// Update a personal label.
-//
-// See [Update a personal label] for more details.
-//
-// [Update a personal label]: https://todoist.com/api/v1/docs#tag/Sync/Labels/Update-a-personal-label
 type LabelUpdateArgs struct {
 	// Required.
 	// The ID of the label.
@@ -30,4 +25,18 @@ type LabelUpdateArgs struct {
 
 func (args *LabelUpdateArgs) command() string {
 	return "label_update"
+}
+
+type LabelRenameSharedArgs struct {
+	// Required.
+	// The current name of the label to modify.
+	NameOld string `json:"name_old"`
+
+	// Required.
+	// The new name for the label.
+	NameNew string `json:"name_new"`
+}
+
+func (args *LabelRenameSharedArgs) command() string {
+	return "label_rename"
 }
