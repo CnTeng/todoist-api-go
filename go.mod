@@ -1,6 +1,6 @@
 module github.com/CnTeng/todoist-api-go
 
-go 1.24.0
+go 1.24.3
 
 require (
 	github.com/coder/websocket v1.8.13
