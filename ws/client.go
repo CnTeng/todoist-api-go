@@ -23,6 +23,7 @@ const (
 type Client struct {
 	url     string
 	handler Handler
+	logger  *log.Logger
 
 	mu   *sync.Mutex
 	conn *websocket.Conn
@@ -33,10 +34,11 @@ type Client struct {
 	msgCh  chan Message
 }
 
-func NewClient(url string, handler Handler) *Client {
+func NewClient(url string, handler Handler, logger *log.Logger) *Client {
 	return &Client{
 		url:     url,
 		handler: handler,
+		logger:  logger,
 		mu:      &sync.Mutex{},
 		wg:      &sync.WaitGroup{},
 		once:    sync.Once{},
@@ -120,8 +122,9 @@ func (c *Client) listen(ctx context.Context) {
 				continue
 			}
 
+			c.logger.Printf("received message: %s", msg.Type)
+
 			if msg.Type == Ping {
-				log.Print(msg.Type)
 				timeout.Reset(pingInterval)
 			}
 
@@ -158,7 +161,7 @@ func (c *Client) handleMessage(ctx context.Context) {
 					}
 
 					d := backoff.Duration()
-					log.Printf("failed to connect, next retry in %v", d)
+					c.logger.Printf("failed to connect, next retry in %s", d)
 
 					select {
 					case <-ctx.Done():
@@ -170,7 +173,7 @@ func (c *Client) handleMessage(ctx context.Context) {
 				fallthrough
 			default:
 				if err := c.handler.HandleMessage(ctx, msg); err != nil {
-					log.Print("failed to handle message:", err)
+					c.logger.Printf("failed to handle message %s: %s", msg, err)
 				}
 			}
 		}
