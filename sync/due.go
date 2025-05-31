@@ -8,7 +8,10 @@ import (
 	"time"
 )
 
-const floatingDateTime = "2006-01-02T15:04:05.000000"
+const (
+	floatingDateTime     = "2006-01-02T15:04:05"
+	floatingDateTimeNano = "2006-01-02T15:04:05.000000"
+)
 
 // Due dates for tasks and reminders is one of the core concepts of Todoist.
 // It's very powerful and quite complex, because it has to embrace different
@@ -143,8 +146,9 @@ func (d *Due) MarshalJSON() ([]byte, error) {
 func parseDate(date string) (time.Time, error) {
 	dateFormats := []string{
 		time.DateOnly,
-		floatingDateTime,
 		time.RFC3339,
+		floatingDateTime,
+		floatingDateTimeNano,
 	}
 
 	for _, format := range dateFormats {
