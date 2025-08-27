@@ -6,6 +6,7 @@ type CommandArgs interface {
 	command() string
 }
 
+// Command represents a command to be sent through the Sync API.
 type Command struct {
 	// The type of the command.
 	Type string `json:"type"`
@@ -30,6 +31,7 @@ func NewCommand(args CommandArgs) *Command {
 	}
 }
 
+// Commands is a slice of Command.
 type Commands []*Command
 
 func NewCommands[T CommandArgs](args []T) Commands {

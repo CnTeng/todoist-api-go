@@ -2,7 +2,7 @@ package sync
 
 import "fmt"
 
-// Duration represents a task's duration.
+// Duration represents a duration of a task.
 type Duration struct {
 	// Time the task will take.
 	Amount int `json:"amount"`
@@ -15,6 +15,7 @@ func (d Duration) String() string {
 	return fmt.Sprintf("%d %s", d.Amount, d.Unit)
 }
 
+// ParseDuration returns a Duration from a string.
 func ParseDuration(s string) (*Duration, error) {
 	var d Duration
 	if _, err := fmt.Sscanf(s, "%d %s", &d.Amount, &d.Unit); err != nil {

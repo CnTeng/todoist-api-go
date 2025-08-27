@@ -15,7 +15,7 @@ func NewFilterService(client *Client) *FilterService {
 	return &FilterService{client: client}
 }
 
-// Add a filter.
+// AddFilter adds a filter.
 //
 // See [Add a filter] for more details.
 //
@@ -24,7 +24,7 @@ func (s *FilterService) AddFilter(ctx context.Context, args *sync.FilterAddArgs)
 	return s.client.ExecuteCommand(ctx, args)
 }
 
-// Update a filter.
+// UpdateFilter updates a filter.
 //
 // See [Update a filter] for more details.
 //
@@ -33,7 +33,7 @@ func (s *FilterService) UpdateFilter(ctx context.Context, args *sync.FilterUpdat
 	return s.client.ExecuteCommand(ctx, args)
 }
 
-// Update multiple filter orders.
+// ReorderFilters updates multiple filter orders.
 //
 // See [Update multiple filter orders] for more details.
 //
@@ -42,7 +42,7 @@ func (s *FilterService) ReorderFilters(ctx context.Context, args *sync.FilterReo
 	return s.client.ExecuteCommand(ctx, args)
 }
 
-// Delete a filter.
+// DeleteFilter deletes a filter.
 //
 // See [Delete a filter] for more details.
 //
@@ -51,7 +51,8 @@ func (s *FilterService) DeleteFilter(ctx context.Context, args *sync.FilterDelet
 	return s.client.ExecuteCommand(ctx, args)
 }
 
-// A simple wrapper around [FilterService.DeleteFilter] that deletes multiple.
+// DeleteFilters is a simple wrapper around [FilterService.DeleteFilter] that
+// deletes multiple.
 func (s *FilterService) DeleteFilters(ctx context.Context, args []*sync.FilterDeleteArgs) (*sync.SyncResponse, error) {
 	return s.client.ExecuteCommands(ctx, sync.NewCommands(args))
 }

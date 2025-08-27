@@ -15,7 +15,8 @@ func NewReminderService(client *Client) *ReminderService {
 	return &ReminderService{client: client}
 }
 
-// Add a new reminder to the user account related to the API credentials.
+// AddReminder adds a new reminder to the user account related to the API
+// credentials.
 //
 // See [Add a reminder] for more details.
 //
@@ -24,7 +25,8 @@ func (s *ReminderService) AddReminder(ctx context.Context, args *sync.ReminderAd
 	return s.client.ExecuteCommand(ctx, args)
 }
 
-// Update a reminder from the user account related to the API credentials.
+// UpdateReminder updates a reminder from the user account related to the API
+// credentials.
 //
 // See [Update a reminder] for more details.
 //
@@ -33,7 +35,7 @@ func (s *ReminderService) UpdateReminder(ctx context.Context, args *sync.Reminde
 	return s.client.ExecuteCommand(ctx, args)
 }
 
-// Delete a reminder from the current user account.
+// DeleteReminder deletes a reminder from the current user account.
 //
 // See [Delete a reminder] for more details.
 //
@@ -42,7 +44,7 @@ func (s *ReminderService) DeleteReminder(ctx context.Context, args *sync.Reminde
 	return s.client.ExecuteCommand(ctx, args)
 }
 
-// A simple wrapper around [ReminderService.DeleteReminder] that deletes
+// DeleteReminders is a simple wrapper around [ReminderService.DeleteReminder] that deletes
 // multiple.
 func (s *ReminderService) DeleteReminders(ctx context.Context, args []*sync.ReminderDeleteArgs) (*sync.SyncResponse, error) {
 	return s.client.ExecuteCommands(ctx, sync.NewCommands(args))

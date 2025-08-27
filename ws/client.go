@@ -20,6 +20,7 @@ const (
 	maxBackoff   = 128 * time.Second
 )
 
+// Client represents a Todoist WebSocket client.
 type Client struct {
 	url     string
 	handler Handler
@@ -46,6 +47,7 @@ func NewClient(url string, handler Handler, logger *log.Logger) *Client {
 	}
 }
 
+// Listen starts the WebSocket client to listen for incoming messages.
 func (c *Client) Listen(ctx context.Context) {
 	c.once.Do(func() {
 		ctx, c.cancel = context.WithCancel(ctx)
@@ -61,6 +63,7 @@ func (c *Client) Listen(ctx context.Context) {
 	})
 }
 
+// Close stops the WebSocket client and closes the connection.
 func (c *Client) Close() error {
 	if c.cancel != nil {
 		c.cancel()
@@ -72,6 +75,7 @@ func (c *Client) Close() error {
 	return nil
 }
 
+// dial dials the WebSocket server and returns the connection.
 func (c *Client) dial(ctx context.Context) (*websocket.Conn, error) {
 	header := make(http.Header)
 	header.Add("Origin", originURL)
@@ -85,6 +89,7 @@ func (c *Client) dial(ctx context.Context) (*websocket.Conn, error) {
 	return conn, nil
 }
 
+// listen listens for incoming WebSocket messages.
 func (c *Client) listen(ctx context.Context) {
 	defer func() {
 		c.wg.Done()
@@ -137,6 +142,7 @@ func (c *Client) listen(ctx context.Context) {
 	}
 }
 
+// handleMessage handles incoming WebSocket messages and reconnection logic.
 func (c *Client) handleMessage(ctx context.Context) {
 	defer c.wg.Done()
 	backoff := newBackoff(1*time.Second, maxBackoff)
@@ -180,6 +186,7 @@ func (c *Client) handleMessage(ctx context.Context) {
 	}
 }
 
+// closeConn closes the WebSocket connection.
 func (c *Client) closeConn() {
 	c.mu.Lock()
 	defer c.mu.Unlock()

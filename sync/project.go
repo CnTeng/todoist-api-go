@@ -2,7 +2,7 @@ package sync
 
 import "time"
 
-// Project represents a project.
+// Project represents a project in Todoist.
 //
 // See [Projects] for more details.
 //

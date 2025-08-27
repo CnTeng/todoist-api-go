@@ -7,8 +7,8 @@ import (
 	"github.com/CnTeng/todoist-api-go/sync"
 )
 
-// Add a new task using the Quick Add implementation similar to that used in the
-// official clients.
+// QuickAddTask adds a new task using the Quick Add implementation similar to
+// that used in the official clients.
 //
 // See [Quick add a task] for more details.
 //
@@ -17,8 +17,8 @@ func (s *TaskService) QuickAddTask(ctx context.Context, request *rest.TaskQuickA
 	return post[sync.Task](ctx, s.client, TaskQuickAddEndpoint, request)
 }
 
-// Retrieves a list of completed tasks strictly limited by the specified
-// completion date range (up to 3 months).
+// GetCompletedTasksByCompletionDate retrieves a list of completed tasks
+// strictly limited by the specified completion date range (up to 3 months).
 //
 // It can retrieve completed items:
 //
@@ -40,8 +40,8 @@ func (s *TaskService) GetCompletedTasksByCompletionDate(ctx context.Context, par
 	return get[rest.TaskGetCompletedResponse](ctx, s.client, TaskCompletedByCompletionDateEndpoint, params)
 }
 
-// A simple wrapper around [TaskService.GetAllCompletedTasksByCompletionDate]
-// that retrieves all.
+// GetAllCompletedTasksByCompletionDate is a simple wrapper around
+// [TaskService.GetAllCompletedTasksByCompletionDate] that retrieves all.
 func (s *TaskService) GetAllCompletedTasksByCompletionDate(ctx context.Context, params *rest.TaskGetCompletedByCompletionDateParams) ([]*sync.Task, error) {
 	tasks := []*sync.Task{}
 	for {
@@ -59,8 +59,8 @@ func (s *TaskService) GetAllCompletedTasksByCompletionDate(ctx context.Context, 
 	return tasks, nil
 }
 
-// Retrieves a list of completed items strictly limited by the specified due
-// date range (up to 6 weeks).
+// GetCompletedTasksByDueDate retrieves a list of completed items strictly
+// limited by the specified due date range (up to 6 weeks).
 //
 // It can retrieve completed items:
 //
@@ -83,8 +83,8 @@ func (s *TaskService) GetCompletedTasksByDueDate(ctx context.Context, params *re
 	return get[rest.TaskGetCompletedResponse](ctx, s.client, TaskCompletedByDueDateEndpoint, params)
 }
 
-// A simple wrapper around [TaskService.GetCompletedTasksByDueDate] that
-// retrieves all.
+// GetAllCompletedTasksByDueDate is a simple wrapper around
+// [TaskService.GetCompletedTasksByDueDate] that retrieves all.
 func (s *TaskService) GetAllCompletedTasksByDueDate(ctx context.Context, params *rest.TaskGetCompletedByDueDateParams) ([]*sync.Task, error) {
 	tasks := []*sync.Task{}
 	for {

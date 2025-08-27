@@ -15,7 +15,7 @@ func NewLabelService(client *Client) *LabelService {
 	return &LabelService{client: client}
 }
 
-// Add a new personal label.
+// AddLabel adds a new personal label.
 //
 // See [Add a personal label] for more details.
 //
@@ -24,7 +24,7 @@ func (s *LabelService) AddLabel(ctx context.Context, args *sync.LabelAddArgs) (*
 	return s.client.ExecuteCommand(ctx, args)
 }
 
-// Update a personal label.
+// UpdateLabel updates a personal label.
 //
 // See [Update a personal label] for more details.
 //
@@ -33,7 +33,7 @@ func (s *LabelService) UpdateLabel(ctx context.Context, args *sync.LabelUpdateAr
 	return s.client.ExecuteCommand(ctx, args)
 }
 
-// Rename a shared label.
+// RenameSharedLabel renames a shared label.
 //
 // See [Rename a shared label] for more details.
 //
@@ -42,7 +42,7 @@ func (s *LabelService) RenameSharedLabel(ctx context.Context, args *sync.LabelRe
 	return s.client.ExecuteCommand(ctx, args)
 }
 
-// Update multiple label orders.
+// ReorderLabels updates multiple label orders.
 //
 // See [Update multiple label orders] for more details.
 //
@@ -51,7 +51,7 @@ func (s *LabelService) ReorderLabels(ctx context.Context, args *sync.LabelReorde
 	return s.client.ExecuteCommand(ctx, args)
 }
 
-// Delete a personal label.
+// DeleteLabel deletes a personal label.
 //
 // See [Delete a personal label] for more details.
 //
@@ -60,12 +60,14 @@ func (s *LabelService) DeleteLabel(ctx context.Context, args *sync.LabelDeleteAr
 	return s.client.ExecuteCommand(ctx, args)
 }
 
-// A simple wrapper around [LabelService.DeleteLabel] that deletes multiple.
+// DeleteLabels is a simple wrapper around [LabelService.DeleteLabel] that
+// deletes multiple.
 func (s *LabelService) DeleteLabels(ctx context.Context, args []*sync.LabelDeleteArgs) (*sync.SyncResponse, error) {
 	return s.client.ExecuteCommands(ctx, sync.NewCommands(args))
 }
 
-// Deletes all occurrences of a shared label from any active tasks.
+// DeleteSharedLabel deletes all occurrences of a shared label from any active
+// tasks.
 //
 // See [Delete shared label occurrences] for more details.
 //
@@ -74,8 +76,8 @@ func (s *LabelService) DeleteSharedLabel(ctx context.Context, args *sync.LabelDe
 	return s.client.ExecuteCommand(ctx, args)
 }
 
-// A simple wrapper around [LabelService.DeleteSharedLabel] that deletes
-// multiple.
+// DeleteSharedLabels is a simple wrapper around
+// [LabelService.DeleteSharedLabel] that deletes multiple.
 func (s *LabelService) DeleteSharedLabels(ctx context.Context, args []*sync.LabelDeleteSharedArgs) (*sync.SyncResponse, error) {
 	return s.client.ExecuteCommands(ctx, sync.NewCommands(args))
 }

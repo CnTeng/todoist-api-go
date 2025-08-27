@@ -1,5 +1,7 @@
 package sync
 
+// ResourceType represents a type of resource that can be fetched from the
+// server.
 type ResourceType string
 
 const (
@@ -49,9 +51,11 @@ const (
 	NoStats                ResourceType = "-stats"
 )
 
-// Used to specify what resources to fetch from the server.
+// ResourceTypes represents resources that can be fetched from the server.
 type ResourceTypes []ResourceType
 
+// DefaultResourceTypes is the default set of resource to fetch from the
+// server.
 var DefaultResourceTypes = ResourceTypes{
 	All,
 	NoTaskComments,
