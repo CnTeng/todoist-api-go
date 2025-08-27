@@ -63,10 +63,10 @@ func (s *ProjectService) MoveProjectToWorkspace(ctx context.Context, args *sync.
 	return s.client.ExecuteCommand(ctx, args)
 }
 
-// MoveProjectToPersonal moves a project inside a workspace out back into a
-// users personal space.
+// MoveProjectToPersonal moves a project inside a workspace back into a
+// user's personal space.
 //
-// Only the original creator of the workspace have permissions to do this, and
+// Only the original creator of the workspace has permissions to do this, and
 // only if they are still currently an admin of said workspace.
 //
 // See [Move a Project out of a Workspace] for more details.

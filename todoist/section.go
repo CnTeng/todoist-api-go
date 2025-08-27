@@ -60,7 +60,7 @@ func (s *SectionService) ArchiveSection(ctx context.Context, args *sync.SectionA
 	return s.client.ExecuteCommand(ctx, args)
 }
 
-// ArchiveSections is a simple wrapper around [SectionService.ArchiveSection] that archive
+// ArchiveSections is a simple wrapper around [SectionService.ArchiveSection] that archives
 // multiple.
 func (s *SectionService) ArchiveSections(ctx context.Context, args []*sync.SectionArchiveArgs) (*sync.SyncResponse, error) {
 	return s.client.ExecuteCommands(ctx, sync.NewCommands(args))
@@ -75,7 +75,7 @@ func (s *SectionService) UnarchiveSection(ctx context.Context, args *sync.Sectio
 	return s.client.ExecuteCommand(ctx, args)
 }
 
-// UnarchiveSections is a simple wrapper around [SectionService.UnarchiveSection] that unarchive
+// UnarchiveSections is a simple wrapper around [SectionService.UnarchiveSection] that unarchives
 // multiple.
 func (s *SectionService) UnarchiveSections(ctx context.Context, args []*sync.SectionUnarchiveArgs) (*sync.SyncResponse, error) {
 	return s.client.ExecuteCommands(ctx, sync.NewCommands(args))
@@ -91,7 +91,7 @@ func (s *SectionService) DeleteSection(ctx context.Context, args *sync.SectionDe
 }
 
 // DeleteSections is a simple wrapper around [SectionService.DeleteSection] that
-// delete multiple.
+// deletes multiple.
 func (s *SectionService) DeleteSections(ctx context.Context, args []*sync.SectionDeleteArgs) (*sync.SyncResponse, error) {
 	return s.client.ExecuteCommands(ctx, sync.NewCommands(args))
 }
