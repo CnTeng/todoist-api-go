@@ -6,9 +6,15 @@ import (
 	"github.com/CnTeng/todoist-api-go/sync"
 )
 
+// Handler defines the interface for handling sync messages.
 type Handler interface {
+	// SyncToken returns the sync token.
 	SyncToken(ctx context.Context) (*string, error)
+
+	// ResourceTypes returns the resource types to sync.
 	ResourceTypes(ctx context.Context) (*sync.ResourceTypes, error)
+
+	// HandleResponse handles the sync response.
 	HandleResponse(ctx context.Context, resp any) error
 }
 

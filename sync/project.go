@@ -2,7 +2,7 @@ package sync
 
 import "time"
 
-// Project represents a project.
+// Project represents a project in Todoist.
 //
 // See [Projects] for more details.
 //
@@ -86,7 +86,7 @@ type Project struct {
 	InboxProject bool `json:"inbox_project,omitempty"`
 
 	// The ID of the folder which this project is in.
-	FolderId *string `json:"folder_id,omitempty"`
+	FolderID *string `json:"folder_id,omitempty"`
 
 	// Project creation date in the format YYYY-MM-DDTHH:MM:SSZ date.
 	CreatedAt time.Time `json:"created_at"`

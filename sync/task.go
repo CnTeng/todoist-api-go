@@ -2,7 +2,7 @@ package sync
 
 import "time"
 
-// Task represents a task.
+// Task represents a task in Todoist.
 //
 // See [Tasks] for more details.
 //

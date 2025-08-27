@@ -15,7 +15,8 @@ func NewLocationService(client *Client) *LocationService {
 	return &LocationService{client: client}
 }
 
-// Clears the locations list, which is used for location reminders.
+// ClearLocations clears the locations list, which is used for location
+// reminders.
 //
 // See [Clear locations] for more details.
 //

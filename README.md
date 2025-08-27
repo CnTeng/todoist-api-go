@@ -1,6 +1,6 @@
 # todoist-api-go
 
-[![Go][go-shield]][go-url]
+[![Go Reference](https://pkg.go.dev/badge/github.com/CnTeng/todoist-api-go.svg)](https://pkg.go.dev/github.com/CnTeng/todoist-api-go)
 
 This repository provides a Go library that implements Todoist API v1.
 
@@ -10,7 +10,7 @@ This repository provides a Go library that implements Todoist API v1.
 
 - Package [sync](https://pkg.go.dev/github.com/CnTeng/todoist-api-go/sync) defines models and helpers for the Sync API.
 
-- Package [rest](https://pkg.go.dev/github.com/CnTeng/todoist-api-go/rest) defines models for the RESTful API models.
+- Package [rest](https://pkg.go.dev/github.com/CnTeng/todoist-api-go/rest) defines models for the RESTful API.
 
 - Package [ws](https://pkg.go.dev/github.com/CnTeng/todoist-api-go/ws) implements a WebSocket client for real-time notifications.
 
@@ -74,7 +74,7 @@ if err != nil {
 }
 ```
 
-### Sync API Multiple Command
+### Sync API Multiple Commands
 
 ```go
 token := os.Getenv("API_TOKEN")
@@ -154,6 +154,3 @@ a Todoist CLI client with an integrated WebSocket daemon for real-time syncing.
 
 - [todoist](https://github.com/sachaos/todoist)
 - [todoist-net](https://github.com/olsh/todoist-net)
-
-[go-shield]: https://img.shields.io/github/go-mod/go-version/CnTeng/todoist-api-go?style=for-the-badge&logo=go
-[go-url]: https://golang.org

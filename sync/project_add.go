@@ -17,7 +17,7 @@ type ProjectAddArgs struct {
 	// Optional.
 	// The ID of the folder, when creating projects in workspaces. Set to null for
 	// root projects.
-	FolderId *string `json:"folder_id,omitempty"`
+	FolderID *string `json:"folder_id,omitempty"`
 
 	// Optional.
 	// The order of the project. Defines the position of the project among all the
