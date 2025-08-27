@@ -1,5 +1,5 @@
 {
-  description = "A go wrapper for the Todoist API.";
+  description = "A go wrapper for the Todoist API v1.";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
