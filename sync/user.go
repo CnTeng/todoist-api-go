@@ -1,5 +1,6 @@
 package sync
 
+// User represents a Todoist user.
 type User struct {
 	// The user's ID.
 	ID string `json:"id"`

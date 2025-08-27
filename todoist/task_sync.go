@@ -15,7 +15,7 @@ func NewTaskService(client *Client) *TaskService {
 	return &TaskService{client: client}
 }
 
-// Add a new task to a project.
+// AddTask adds a new task to a project.
 //
 // See [Add a task] for more details.
 //
@@ -24,9 +24,9 @@ func (s *TaskService) AddTask(ctx context.Context, args *sync.TaskAddArgs) (*syn
 	return s.client.ExecuteCommand(ctx, args)
 }
 
-// Update task attributes. Please note that updating the parent, moving,
-// completing or uncompleting tasks is not supported by item_update, more
-// specific commands have to be used instead.
+// UpdateTask updates task attributes. Please note that updating the parent,
+// moving, completing or uncompleting tasks is not supported by item_update,
+// more specific commands have to be used instead.
 //
 // See [Update a task] for more details.
 //
@@ -35,7 +35,7 @@ func (s *TaskService) UpdateTask(ctx context.Context, args *sync.TaskUpdateArgs)
 	return s.client.ExecuteCommand(ctx, args)
 }
 
-// Update the day orders of multiple tasks at once.
+// UpdateTaskDayOrders updates the day orders of multiple tasks at once.
 //
 // See [Update day orders] for more details.
 //
@@ -44,8 +44,8 @@ func (s *TaskService) UpdateTaskDayOrders(ctx context.Context, args *sync.TaskUp
 	return s.client.ExecuteCommand(ctx, args)
 }
 
-// Move task to a different location. Only one of parent_id, section_id or
-// project_id must be set.
+// MoveTask moves task to a different location. Only one of parent_id,
+// section_id or project_id must be set.
 //
 // See [Move a task] for more details.
 //
@@ -54,7 +54,7 @@ func (s *TaskService) MoveTask(ctx context.Context, args *sync.TaskMoveArgs) (*s
 	return s.client.ExecuteCommand(ctx, args)
 }
 
-// Update child_order properties of items in bulk.
+// ReorderTasks updates child_order properties of items in bulk.
 //
 // See [Reorder tasks] for more details.
 //
@@ -63,8 +63,8 @@ func (s *TaskService) ReorderTasks(ctx context.Context, args *sync.TaskReorderAr
 	return s.client.ExecuteCommand(ctx, args)
 }
 
-// Completes a task and its sub-tasks and moves them to the archive. See also
-// [TaskCloseArgs] for a simplified version of the command.
+// CompleteTask completes a task and its sub-tasks and moves them to the
+// archive. See also [TaskCloseArgs] for a simplified version of the command.
 //
 // See [Complete task] for more details.
 //
@@ -73,9 +73,10 @@ func (s *TaskService) CompleteTask(ctx context.Context, args *sync.TaskCompleteA
 	return s.client.ExecuteCommand(ctx, args)
 }
 
-// Complete a recurring task. The reason why this is a special case is because
-// we need to mark a recurring completion (and using item_update won't do this).
-// See also [TaskCloseArgs] for a simplified version of the command.
+// CompleteTaskRecurring completes a recurring task. The reason why this is a
+// special case is because we need to mark a recurring completion (and using
+// item_update won't do this). See also [TaskCloseArgs] for a simplified version
+// of the command.
 //
 // See [Complete a recurring task] for more details.
 //
@@ -84,8 +85,9 @@ func (s *TaskService) CompleteTaskRecurring(ctx context.Context, args *sync.Task
 	return s.client.ExecuteCommand(ctx, args)
 }
 
-// A simplified version of item_complete / item_update_date_complete. The
-// command does exactly what official clients do when you close a task:
+// CloseTask is a simplified version of item_complete /
+// item_update_date_complete. The command does exactly what official clients do
+// when you close a task:
 //
 //   - regular tasks are completed and moved to the archive
 //   - recurring tasks are scheduled to their next occurrence
@@ -97,12 +99,12 @@ func (s *TaskService) CloseTask(ctx context.Context, args *sync.TaskCloseArgs) (
 	return s.client.ExecuteCommand(ctx, args)
 }
 
-// A simple wrapper around [TaskService.CloseTask] that closes multiple tasks.
+// CloseTasks is a simple wrapper around [TaskService.CloseTask] that closes multiple tasks.
 func (s *TaskService) CloseTasks(ctx context.Context, args []*sync.TaskCloseArgs) (*sync.SyncResponse, error) {
 	return s.client.ExecuteCommands(ctx, sync.NewCommands(args))
 }
 
-// Uncomplete and restore an archived item.
+// UncompleteTask uncompletes and restores an archived item.
 //
 // Any ancestor items or sections will also be reinstated. Items will have the
 // checked value reset.
@@ -117,13 +119,13 @@ func (s *TaskService) UncompleteTask(ctx context.Context, args *sync.TaskUncompl
 	return s.client.ExecuteCommand(ctx, args)
 }
 
-// A simple wrapper around [TaskService.UncompleteTask] that uncompletes
-// multiple tasks.
+// UncompleteTasks is a simple wrapper around [TaskService.UncompleteTask] that
+// uncompletes multiple tasks.
 func (s *TaskService) UncompleteTasks(ctx context.Context, args []*sync.TaskUncompleteArgs) (*sync.SyncResponse, error) {
 	return s.client.ExecuteCommands(ctx, sync.NewCommands(args))
 }
 
-// Delete a task and all its sub-tasks.
+// DeleteTask deletes a task and all its sub-tasks.
 //
 // See [Delete a task] for more details.
 //
@@ -132,7 +134,8 @@ func (s *TaskService) DeleteTask(ctx context.Context, args *sync.TaskDeleteArgs)
 	return s.client.ExecuteCommand(ctx, args)
 }
 
-// A simple wrapper around [TaskService.DeleteTask] that deletes multiple.
+// DeleteTasks is a simple wrapper around [TaskService.DeleteTask] that deletes
+// multiple.
 func (s *TaskService) DeleteTasks(ctx context.Context, args []*sync.TaskDeleteArgs) (*sync.SyncResponse, error) {
 	return s.client.ExecuteCommands(ctx, sync.NewCommands(args))
 }

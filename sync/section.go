@@ -2,7 +2,7 @@ package sync
 
 import "time"
 
-// Section represents a section.
+// Section represents a section in Todoist.
 //
 // See [Sections] for more details.
 //

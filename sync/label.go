@@ -1,5 +1,7 @@
 package sync
 
+// Label represents a label in Todoist.
+//
 // There are two types of labels that can be added to Todoist tasks. We refer to
 // these as personal and shared labels.
 //

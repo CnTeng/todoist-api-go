@@ -8,6 +8,7 @@ import (
 	"github.com/CnTeng/todoist-api-go/sync"
 )
 
+// Client is a client to interact with the Todoist API v1.
 type Client struct {
 	client  *http.Client
 	token   string
@@ -22,10 +23,13 @@ func NewClient(client *http.Client, token string, handler Handler) *Client {
 	}
 }
 
+// Sync data between the Todoist client.
 func (c *Client) Sync(ctx context.Context, request *sync.SyncRequest) (*sync.SyncResponse, error) {
 	return post[sync.SyncResponse](ctx, c, syncEndpoint, request)
 }
 
+// SyncWithAutoToken performs a sync operation with automatic handling of the
+// sync token.
 func (c *Client) SyncWithAutoToken(ctx context.Context, fullSync bool) (*sync.SyncResponse, error) {
 	syncToken := sync.DefaultSyncToken
 	if !fullSync {
@@ -45,11 +49,13 @@ func (c *Client) SyncWithAutoToken(ctx context.Context, fullSync bool) (*sync.Sy
 	return c.Sync(ctx, req)
 }
 
+// ExecuteCommand executes a single command in a single sync request.
 func (c *Client) ExecuteCommand(ctx context.Context, args sync.CommandArgs) (*sync.SyncResponse, error) {
 	cmd := sync.NewCommand(args)
 	return c.ExecuteCommands(ctx, sync.Commands{cmd})
 }
 
+// ExecuteCommands executes multiple commands in a single sync request.
 func (c *Client) ExecuteCommands(ctx context.Context, cmds sync.Commands) (*sync.SyncResponse, error) {
 	st, err := c.handler.SyncToken(ctx)
 	if err != nil {

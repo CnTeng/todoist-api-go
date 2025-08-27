@@ -2,6 +2,7 @@ package sync
 
 import "fmt"
 
+// Color represents a color of a label or project.
 type Color string
 
 var (
@@ -57,6 +58,7 @@ var colorMap = map[Color]struct {
 	Taupe:      {"#8F7A69", rgb{0x8F, 0x7A, 0x69}},
 }
 
+// ParseColor returns a Color from a string.
 func ParseColor(s string) (Color, error) {
 	if _, ok := colorMap[Color(s)]; !ok {
 		return "", fmt.Errorf("invalid color %s", s)
@@ -64,6 +66,7 @@ func ParseColor(s string) (Color, error) {
 	return Color(s), nil
 }
 
+// ListColors returns all available colors.
 func ListColors() []Color {
 	colors := make([]Color, len(colorMap))
 	i := 0
@@ -74,10 +77,12 @@ func ListColors() []Color {
 	return colors
 }
 
+// Hex returns the hex of the color.
 func (c Color) Hex() string {
 	return colorMap[c].hex
 }
 
+// RGB returns the RGB of the color.
 func (c Color) RGB() (int, int, int) {
 	rgb := colorMap[c].rgb
 	return int(rgb.r), int(rgb.g), int(rgb.b)

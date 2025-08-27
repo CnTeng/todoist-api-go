@@ -15,7 +15,7 @@ func NewUserService(client *Client) *UserService {
 	return &UserService{client: client}
 }
 
-// Get user information.
+// GetUser gets user information.
 func (s *UserService) GetUser(ctx context.Context) (*sync.User, error) {
 	return get[sync.User](ctx, s.client, UserEndpoint, nil)
 }

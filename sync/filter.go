@@ -1,12 +1,9 @@
 package sync
 
-// Availability of filters functionality and the maximum number of saved filters
-// are dependent on the current user plan. These values are indicated by the
-// filters and max_filters properties of the user [plan limits object].
+// Filter represents a filter in Todoist.
 //
 // See [Filters] for more details.
 //
-// [plan limits object]: https://todoist.com/api/v1/docs#tag/Sync/User/User-plan-limits
 // [Filters]: https://todoist.com/api/v1/docs#tag/Sync/Filters
 type Filter struct {
 	// The ID of the filter.
