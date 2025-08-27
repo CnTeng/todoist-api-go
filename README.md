@@ -1,6 +1,6 @@
 # todoist-api-go
 
-[![Go][go-shield]][go-url]
+[![Go Reference](https://pkg.go.dev/badge/github.com/CnTeng/todoist-api-go.svg)](https://pkg.go.dev/github.com/CnTeng/todoist-api-go)
 
 This repository provides a Go library that implements Todoist API v1.
 
@@ -154,6 +154,3 @@ a Todoist CLI client with an integrated WebSocket daemon for real-time syncing.
 
 - [todoist](https://github.com/sachaos/todoist)
 - [todoist-net](https://github.com/olsh/todoist-net)
-
-[go-shield]: https://img.shields.io/github/go-mod/go-version/CnTeng/todoist-api-go?style=for-the-badge&logo=go
-[go-url]: https://golang.org
