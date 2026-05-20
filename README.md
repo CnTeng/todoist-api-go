@@ -1,5 +1,8 @@
 # todoist-api-go
 
+> [!WARNING]
+> This project has been archived since I no longer use Todoist.
+
 [![Go Reference](https://pkg.go.dev/badge/github.com/CnTeng/todoist-api-go.svg)](https://pkg.go.dev/github.com/CnTeng/todoist-api-go)
 
 This repository provides a Go library that implements Todoist API v1.
