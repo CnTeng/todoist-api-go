@@ -20,6 +20,7 @@
             go
             gotools
           ];
+          CGO_ENABLED = "0";
         };
       });
 
